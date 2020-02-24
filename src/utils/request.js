@@ -51,7 +51,7 @@ service.interceptors.response.use(
     const res = response.data
     if (res.resCode !== '0000') {
       if(res.resCode === '0004'){
-        window.location.href = res.resData.redirectUrl
+        window.location.replace(res.resData.redirectUrl)
       }else{
         Message({
           message: res.resMsg,

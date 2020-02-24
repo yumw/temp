@@ -137,6 +137,27 @@ export default {
       }else{
         params.startTime = params.startTime ? timeToUnix(params.startTime) : '';
         params.endTime = params.endTime ? timeToUnix(params.endTime) : '';
+        if(!params.startTime){
+          this.$message({
+            message: '开始时间不能为空',
+            type: 'error'
+          })
+          return false;
+        }
+        if(!params.endTime){
+          this.$message({
+            message: '结束时间不能为空',
+            type: 'error'
+          })
+          return false;
+        }
+        if(params.startTime >= params.endTime){
+          this.$message({
+            message: '开始日期应小于截止日期',
+            type: 'error'
+          })
+          return false;
+        }
       }
       findCustomer(params).then(res => {
         console.log(res)

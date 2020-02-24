@@ -90,10 +90,11 @@ export default {
       // return
       exit().then(res => {
         if (res) {
-          this.$message({
-            type: 'success',
-            message: '退出成功！'
-          })
+          window.location.replace(res.resData)
+          // this.$message({
+          //   type: 'success',
+          //   message: '退出成功！'
+          // })
         }
       }).catch(error => {
         console.log(error)
