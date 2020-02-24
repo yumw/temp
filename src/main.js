@@ -20,6 +20,11 @@ Vue.use(ElementUI, { locale })
 
 Vue.config.productionTip = false
 
+Vue.prototype.hasPerm = function(permission){
+  let btns = store.state.permission.btns;
+  return btns.indexOf(permission) > -1;
+}
+
 new Vue({
   el: '#app',
   router,

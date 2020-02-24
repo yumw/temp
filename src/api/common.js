@@ -40,4 +40,18 @@ export function findAllPartner(data) {
     data
   })
 }
+
+export function findUserName() {
+  return request({
+    url: '/bg/user/findUserName',
+    method: 'get'
+  })
+}
+
+export function exit() {
+  return request({
+    url: '/bg/sso/exit',
+    method: 'get'
+  })
+}
       

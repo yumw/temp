@@ -2,7 +2,7 @@
   <div class="app-container">
     <div class="table-container">
       <div class="table-toolbar">
-        <el-button type="primary" @click="add">新增</el-button>
+        <el-button type="primary" @click="add" v-if="hasPerm('addProduct')">新增</el-button>
       </div>
       <el-table ref="multipleTable" :data="product" border>
         <el-table-column label="序号" width="50" type="index"></el-table-column>
@@ -10,8 +10,8 @@
         <el-table-column prop="prodName" label="名称"></el-table-column>
         <el-table-column prop="paymentType" label="操作" fixed="right" width="160">
           <template slot-scope="scope">
-            <el-button @click="edit(scope.row)" size="small" type="warning">编辑</el-button>
-            <el-button @click="del(scope.row)" size="small" type="danger">删除</el-button>
+            <el-button @click="edit(scope.row)" size="small" type="warning" v-if="hasPerm('addProduct')">编辑</el-button>
+            <el-button @click="del(scope.row)" size="small" type="danger" v-if="hasPerm('deleteProduct')">删除</el-button>
           </template>
         </el-table-column>
       </el-table>

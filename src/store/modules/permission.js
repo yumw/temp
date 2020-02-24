@@ -32,12 +32,16 @@ export function filterMenu(asyncRouterMap, permissionList) {
 const permission = {
   state: {
     routers: [],
-    addRouters: []
+    addRouters: [],
+    btns:[]
   },
   mutations: {
     SET_ROUTERS: (state, routers) => {
       // state.addRouters = routers
       state.routers = constantMenu.concat(routers)
+    },
+    SET_BTNS: (state, values) => {
+      state.btns = values
     }
   },
   actions: {

@@ -41,6 +41,9 @@
     <div class="table-container">
       <el-table ref="multipleTable" :data="tableData" border :stripe="stripe" style="width: 100%">
         <el-table-column prop="applyTime" label="分发日期" min-width="100px">
+          <template slot-scope="scope" v-if="scope.row.applyTime">
+            {{ formatTime(scope.row.applyTime,'yyyy-MM-dd') }} 
+          </template>
         </el-table-column>
         <el-table-column prop="caseNo" label="审批案件号">
         </el-table-column>
@@ -54,7 +57,7 @@
         </el-table-column>
         <el-table-column prop="" label="授信金额">
         </el-table-column>
-        <el-table-column prop="channelCode" label="进件渠道" :formatter="loanStatusTranslate">
+        <el-table-column prop="channelName" label="进件渠道">
         </el-table-column>
         <el-table-column prop="prodCode" label="产品号">
         </el-table-column>
@@ -62,9 +65,15 @@
         </el-table-column>
         <el-table-column prop="partnerName" label="资方名称">
         </el-table-column>
-        <el-table-column prop="cooperatibeMode" label="合作模式">
+        <el-table-column prop="cooperativeMode" label="合作模式">
+          <template slot-scope="scope" v-if="scope.row.cooperativeMode">
+              {{ cooperativeMode[scope.row.cooperativeMode] }}
+          </template>
         </el-table-column>
         <el-table-column prop="investRatio" label="中邮出资比例">
+          <template slot-scope="scope" v-if="scope.row.investRatio && scope.row.investRatio != ''">
+              {{ scope.row.investRatio }}%
+          </template>
         </el-table-column>
       </el-table>
       <el-pagination class="mt10" @size-change="handleSizeChange" @current-change="handleCurrentChange" :page-sizes="[10, 20, 30, 40]" :page-size="rows" layout="total,sizes, prev, pager, next, jumper" :total="total">
@@ -74,8 +83,8 @@
 </template>
 <script>
 import { findCustomer } from '@/api/customer'
-import { timeToUnix } from '@/utils'
-//import _ from 'lodash'
+import { formatTime, timeToUnix } from '@/utils/index'
+import _ from 'lodash'
 export default {
   name: 'customerList',
   data() {
@@ -99,7 +108,12 @@ export default {
       selection: [],
       message: '',
       repayTypeList: [],
-      tradeStatusList: []
+      tradeStatusList: [],
+      cooperativeMode: {
+        '0': '中邮自营',
+        '1': '联合贷款',
+        '2': '资方全资'
+      }
     }
   },
   created() {

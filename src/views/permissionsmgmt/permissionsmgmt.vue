@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-button type="primary" @click="manualSycn">手动同步角色</el-button> 
+    <el-button type="primary" @click="manualSycn" v-if="hasPerm('manualSyncRole')">手动同步角色</el-button> 
     <el-table ref="multipleTable" :data="tableData" border :stripe="stripe" style="width: 100%">
       
         <el-table-column label="序号" width="50" type="index"></el-table-column>
@@ -9,11 +9,11 @@
       <el-table-column prop="updateTime" label="更新时间" width></el-table-column> -->
       <el-table-column label="操作" width>
         <template slot-scope="scope" class="control">
-          <div class="control-item edit-text" @click="handleEdit(scope.row.id)">
+          <div class="control-item edit-text" @click="handleEdit(scope.row.id)" v-if="hasPerm('saveMenuPrivilege')">
             <img src="../../assets/edit.png" class="edit-icon" />
             <span>编辑</span>
           </div>
-          <div class="control-item detail-text" @click="handleDetail(scope.row.id)">
+          <div class="control-item detail-text" @click="handleDetail(scope.row.id)" v-if="hasPerm('saveMenuPrivilege')">
             <img src="../../assets/search.png" class="edit-icon" />
             <span>详情</span>
           </div>

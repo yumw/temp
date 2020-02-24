@@ -1,5 +1,8 @@
 <template>
   <div class="dashboard-container">
+    <button v-if="hasPerm('a')">aaaa</button>
+    <button v-if="hasPerm('b')">bbb</button>
+    <button v-if="hasPerm('c')">ccc</button>
     <!-- <div class="dashboard-head">
       <span>今日数据</span>
       <span>

@@ -4,7 +4,7 @@
     <breadcrumb></breadcrumb>
     <el-dropdown class="avatar-container" trigger="click">
       <div class="avatar-wrapper">
-        <div>hi，{{name}}</div>
+        <div>hi，{{username}}</div>
         <i class="el-icon-caret-bottom"></i>
       </div>
       <el-dropdown-menu class="user-dropdown" slot="dropdown">
@@ -44,6 +44,7 @@
 import { mapGetters } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
+import { findUserName, exit } from '@/api/common'
 
 export default {
   components: {
@@ -58,7 +59,8 @@ export default {
       //   password: '',
       //   confirmPassword: ''
       // },
-      formLabelWidth: '120'
+      formLabelWidth: '120',
+      username:''
     }
   },
   computed: {
@@ -68,15 +70,34 @@ export default {
       'avatar'
     ])
   },
+  mounted(){
+    findUserName().then(res => {
+      if (res) {
+        this.username = res.resData
+      }
+    }).catch(error => {
+      console.log(error)
+    })
+  },
   methods: {
     toggleSideBar() {
       this.$store.dispatch('ToggleSideBar')
     },
     logout() {
-      const url = window.location.href
-      const loginPath = `${window.location.origin}/logout?redirect_uri=${url}`
-      window.location.replace(loginPath)
-      return
+      // const url = window.location.href
+      // const loginPath = `${window.location.origin}/logout?redirect_uri=${url}`
+      // window.location.replace(loginPath)
+      // return
+      exit().then(res => {
+        if (res) {
+          this.$message({
+            type: 'success',
+            message: '退出成功！'
+          })
+        }
+      }).catch(error => {
+        console.log(error)
+      })
     }
   }
 }

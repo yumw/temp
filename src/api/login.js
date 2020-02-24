@@ -45,3 +45,11 @@ export function getMenu(){
     method: 'get'
   })
 }
+
+export function findPrivilege(data){
+  return request({
+    url: '/bg/privilege/findPrivilege',
+    method: 'post',
+    data
+  })
+}

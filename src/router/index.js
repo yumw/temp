@@ -254,9 +254,9 @@ export const asyncRouterMap = [
   //   ]
   // },
   {
-    path: '/customer',
+    path: '',
     component: Layout,
-    redirect: '/customer/list',
+    redirect: '',
     name: '查询',
     meta: { title: '查询', icon: 'download' },
     children: [
@@ -270,9 +270,9 @@ export const asyncRouterMap = [
     ]
   },
   {
-    path: '/distributeMgmt',
+    path: '',
     component: Layout,
-    redirect: '/distributeMgmt/mains',
+    redirect: '',
     name: '分发管理',
     meta: { title: '分发管理', icon: 'download' },
     children: [
@@ -376,22 +376,136 @@ export const asyncRouterMap = [
     ],
   },
   {
-    path: '/usermgmt',
+    path: '',
     component: Layout,
-    redirect: '/usermgmt',
+    redirect: '',
     name: '用户管理',
     meta: { title: '用户管理', icon: 'lock-open' },
     children: [
       {
-        id: 'permissionsmgmt',
-        path: 'permissionsmgmt',
-        name: 'permissionsmgmt ',
+        id: 'permissionmgmt',
+        path: 'permissionmgmt',
+        name: 'permissionmgmt ',//permissionsmgmt
         component: () => import('@/views/permissionsmgmt/permissionsmgmt'),
         meta: { title: '权限管理', icon: 'lock-open' }
       }
     ]
   },
 ]
+
+export const routerMap = {
+  'customerList':{
+    id: 'customerList',
+    path: 'customerList',
+    name: '客户查询',
+    component: () => import('@/views/customer/list'),
+    meta: { title: '客户查询', icon: 'download', id:-1 }
+  },
+  'assetPackConf': [{
+    id: 'assetPackConf',
+    path: 'assetPackConf',
+    name: 'assetPackConf',
+    component: () => import('@/views/assetPackConf/list'),
+    meta: { title: '资产包配置', icon: 'download' }
+  },
+  {
+    id: 'assetPackConf',
+    path: 'assetPackConf/add',
+    name: 'assetPackConfAdd',
+    hidden: true,
+    component: () => import('@/views/assetPackConf/edit'),
+    meta: { title: '资产包配置新增', icon: 'download' }
+  },
+  {
+    id: 'assetPackConf',
+    path: 'assetPackConf/edit',
+    name: 'assetPackConfEdit',
+    hidden: true,
+    component: () => import('@/views/assetPackConf/edit'),
+    meta: { title: '资产包配置修改', icon: 'download' }
+  }],
+  'partnerMgmt':[{
+    id: 'partnerMgmt',
+    path: 'partnerMgmt',
+    name: 'partnerMgmt',
+    component: () => import('@/views/partnerMgmt/list'),
+    meta: { title: '资方管理', icon: 'download' }
+  },
+  {
+    id: 'partnerMgmt',
+    path: 'partnerMgmt/add',
+    name: 'partnerMgmtAdd',
+    hidden: true,
+    component: () => import('@/views/partnerMgmt/edit'),
+    meta: { title: '资方管理新增', icon: 'download' }
+  },
+  {
+    id: 'partnerMgmt',
+    path: 'partnerMgmt/edit',
+    name: 'partnerMgmtEdit',
+    hidden: true,
+    component: () => import('@/views/partnerMgmt/edit'),
+    meta: { title: '资方管理修改', icon: 'download' }
+  }],
+  'ruleConf':[{
+    id: 'ruleConf',
+    path: 'ruleConf',
+    name: 'ruleConf',
+    component: () => import('@/views/ruleConf/list'),
+    meta: { title: '分发配置', icon: 'download' }
+  },
+  {
+    id: 'ruleConf',
+    path: 'ruleConf/add',
+    name: 'ruleConfAdd',
+    hidden: true,
+    component: () => import('@/views/ruleConf/edit'),
+    meta: { title: '分发配置新增', icon: 'download' }
+  },
+  {
+    id: 'ruleConf',
+    path: 'ruleConf/edit',
+    name: 'ruleConfEdit',
+    hidden: true,
+    component: () => import('@/views/ruleConf/edit'),
+    meta: { title: '分发配置修改', icon: 'download' }
+  }],
+  'channelMgmt':{
+    id: 'channelMgmt',
+    path: 'channelMgmt',
+    name: 'channelMgmt',
+    component: () => import('@/views/channelMgmt/list'),
+    meta: { title: '渠道管理', icon: 'download' }
+  },
+  'productIdMgmt':{
+    id: 'productIdMgmt',
+    path: 'productIdMgmt',
+    name: 'productIdMgmt',
+    component: () => import('@/views/productIdMgmt/list'),
+    meta: { title: '产品号管理', icon: 'download' }
+  },
+  'urgeRepayConf':{
+    id: 'urgeRepayConf',
+    path: 'urgeRepayConf',
+    name: 'urgeRepayConf',
+    component: () => import('@/views/urgeRepayConf/list'),
+    meta: { title: '催收配置', icon: 'download' }
+  },
+  'reportCreditConf':{
+    id: 'reportCreditConf',
+    path: 'reportCreditConf',
+    name: 'reportCreditConf',
+    component: () => import('@/views/reportCreditConf/list'),
+    meta: { title: '征信配置', icon: 'download' }
+  },
+  'permissionmgmt':{
+    id: 'permissionmgmt',
+    path: 'permissionmgmt',
+    name: 'permissionmgmt ',
+    component: () => import('@/views/permissionsmgmt/permissionsmgmt'),
+    meta: { title: '权限管理', icon: 'lock-open' }
+  }
+}
 
 const router = new Router({
   // mode: 'history', //后端支持可开

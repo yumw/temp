@@ -14,12 +14,12 @@
           </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="query(rows,1)">查询</el-button>
+        <el-button type="primary" @click="query(rows,1)" v-if="hasPerm('findPartner')">查询</el-button>
       </el-form-item>
     </el-form>
     <div class="table-container">
       <div class="table-toolbar">
-        <el-button type="primary" @click="add">新增</el-button>
+        <el-button type="primary" @click="add" v-if="hasPerm('addPartner')">新增</el-button>
       </div>
       <el-table ref="multipleTable" :data="tableData" border :stripe="stripe" style="width: 100%">
         <el-table-column prop="partnerCode" label="资方编号" width="100">
@@ -54,7 +54,7 @@
         </el-table-column>
         <el-table-column prop="paymentType" label="操作" fixed="right" width="160">
           <template slot-scope="scope">
-            <el-button @click="edit(scope.row)" size="small" type="warning">编辑</el-button>
+            <el-button @click="edit(scope.row)" size="small" type="warning" v-if="hasPerm('updatePartner')">编辑</el-button>
             <!-- <el-button @click="del" size="small" type="danger">删除</el-button> -->
           </template>
         </el-table-column>
