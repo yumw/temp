@@ -31,8 +31,13 @@
         <el-col :span="4">%</el-col>
       </el-form-item>
       <el-form-item label="资产偏好" prop="packageCode">
-        <el-button @click="choopackageCode">选择</el-button>
-        <el-input disabled v-model="formAddEdit.packageCode" auto-complete="off"></el-input>
+        <el-col :span="18">
+          <el-input readonly v-model="formAddEdit.packageCode" auto-complete="off"></el-input>
+        </el-col>
+        <el-col :span="6">
+          &nbsp;
+          <el-button @click="choopackageCode">选择</el-button>
+        </el-col>
       </el-form-item>
       <el-form-item label="审批时效" prop="approveTime">
         <el-select v-model="approveTime.h" @change="changeApproveTime">
@@ -59,7 +64,7 @@
       </el-form-item>
       <div v-if="formAddEdit.advanceFlag === 'N'">
       <el-form-item label="关闭时间段" prop="advanceCloseBeginTime">
-        <el-date-picker type="datetime" placeholder="选择时间" v-model="formAddEdit.advanceCloseBeginTime" value-format="yyyy-MM-dd HH:mm:ss" :disabled="formAddEdit.advanceCloseLongFlag === 1"></el-date-picker>
+        <el-date-picker type="datetime" placeholder="选择时间" @blur="xxx" v-model="formAddEdit.advanceCloseBeginTime" value-format="yyyy-MM-dd HH:mm:ss" :disabled="formAddEdit.advanceCloseLongFlag === 1"></el-date-picker>
       </el-form-item>
       <el-form-item label="至" prop="advanceCloseEndTime">
         <el-date-picker type="datetime" placeholder="选择时间" v-model="formAddEdit.advanceCloseEndTime" value-format="yyyy-MM-dd HH:mm:ss" :disabled="formAddEdit.advanceCloseLongFlag === 1"></el-date-picker>
@@ -94,7 +99,9 @@ export default  {
       let valid = this.partner.some(item => item.partnerFullName == value);
       console.log(valid)
       if(valid === true){
-        return callback(new Error('资方全称不能重复！'))
+        callback(new Error('资方全称不能重复！'))
+      }else{
+        callback();
       }
     }
     return {
@@ -121,8 +128,8 @@ export default  {
       formAddEditRules: {
         partnerName: [{ required: true, message: '请输入资方名称' }],
         partnerFullName: [
-          { required: true, message: '请输入资方全称' },
-          { validator: fullNameValid, trigger: 'blur' }
+          { required: true, message: '请输入资方全称' }
+          // { validator: fullNameValid, trigger: 'blur' }
         ],
         cooperativeMode: [{ required: true, message: '请选择合作模式' }],
         investRatio: [{ required: true, message: '请输入中邮出资比例' }],
@@ -147,13 +154,14 @@ export default  {
     })
   },
   mounted(e){
+    this.$store.dispatch('getPartner') //获取所有资方
     let { record } = this.$route.params
     if(record){
       this.type = 1;
-      this.formAddEdit = record;
-
-      this.formAddEdit.advanceCloseBeginTime = formatTime(record.advanceCloseBeginTime);
-      this.formAddEdit.advanceCloseEndTime = formatTime(record.advanceCloseEndTime);
+      //this.formAddEdit = record;
+      Object.assign(this.formAddEdit,record)
+      this.formAddEdit.advanceCloseBeginTime = record.advanceCloseBeginTime ? formatTime(record.advanceCloseBeginTime) : '';
+      this.formAddEdit.advanceCloseEndTime = record.advanceCloseEndTime ? formatTime(record.advanceCloseEndTime) : '';
       let approveTime = record.approveTime.split(':')
       this.approveTime = {
         h: approveTime[0],
@@ -209,6 +217,14 @@ export default  {
             let params2 = {
               advanceCloseBeginTime: new Date(this.formAddEdit.advanceCloseBeginTime).getTime(),
               advanceCloseEndTime: new Date(this.formAddEdit.advanceCloseEndTime).getTime(),
+            }
+            if(params2.advanceCloseBeginTime >= params2.advanceCloseEndTime){
+              this.$message({
+                message: '开始日期应小于截止日期',
+                type: 'error'
+              })
+              return false;
+            
             }
             params = {...params,...params2}
           }
@@ -342,6 +358,9 @@ export default  {
       })
       let result = data ? partnerFullName.filter(this.createFilter(data)) : partnerFullName;
       cb(result)
+    },
+    xxx(e,b,c){
+      console.log(e,b,c)
     }
   },
   watch: {

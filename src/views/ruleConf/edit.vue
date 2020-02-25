@@ -100,7 +100,8 @@ export default  {
     let { record } = this.$route.params
     if(record){
       this.type = 1;
-      this.formAddEdit = record;
+      record.dayLimit = String(record.dayLimit)
+      this.formAddEdit = Object.assign(this.formAddEdit,record);
       this.formAddEdit.ruleDate = [formatTime(this.formAddEdit.ruleBeginDate,'yyyy-MM-dd'),formatTime(this.formAddEdit.ruleEndDate,'yyyy-MM-dd')]
       this.formAddEdit.distTime = [this.formAddEdit.distBeginTime,this.formAddEdit.distEndTime]
     }else{

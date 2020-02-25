@@ -152,7 +152,6 @@ export default {
           })
           return false;
         }
-        console.log(timeToUnix(params.startTime),timeToUnix(params.endTime))
         if(timeToUnix(params.startTime) >= timeToUnix(params.endTime)){
           this.$message({
             message: '开始日期应小于截止日期',

@@ -142,6 +142,9 @@ export function timeToUnix(time) {
 
 
 export function formatTime(date,fmt = 'yyyy-MM-dd HH:mm:ss') {
+  if(!date){
+    return '';
+  }
   var date = new Date(date)
   var o = {
       "M+": date.getMonth() + 1, //月份 
