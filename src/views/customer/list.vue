@@ -25,11 +25,11 @@
       </el-form-item>
       <el-form-item label="" v-if="form.timeType == 2">
         <el-col :span="11">
-          <el-date-picker type="datetime" placeholder="选择日期" v-model="form.startTime" @change="beginTimeChanged" value-format="yyyy-MM-dd HH:mm:ss" style="width: 100%;"></el-date-picker>
+          <el-date-picker type="date" placeholder="选择日期" v-model="form.startTime" @change="beginTimeChanged" value-format="yyyy-MM-dd" style="width: 100%;"></el-date-picker>
         </el-col>
         <el-col class="line" :span="2" style="text-align:center;">-</el-col>
         <el-col :span="11">
-          <el-date-picker type="datetime" placeholder="选择日期" v-model="form.endTime" @change="endTimeChanged" value-format="yyyy-MM-dd HH:mm:ss" style="width: 100%;"></el-date-picker>
+          <el-date-picker type="date" placeholder="选择日期" v-model="form.endTime" @change="endTimeChanged" value-format="yyyy-MM-dd" style="width: 100%;"></el-date-picker>
         </el-col>
       </el-form-item>
 
@@ -40,9 +40,9 @@
     </el-form>
     <div class="table-container">
       <el-table ref="multipleTable" :data="tableData" border :stripe="stripe" style="width: 100%">
-        <el-table-column prop="applyTime" label="分发日期" min-width="100px">
-          <template slot-scope="scope" v-if="scope.row.applyTime">
-            {{ formatTime(scope.row.applyTime,'yyyy-MM-dd') }} 
+        <el-table-column prop="distTime" label="分发日期" min-width="100px">
+          <template slot-scope="scope" v-if="scope.row.distTime">
+            {{ formatTime(new Date(scope.row.distTime).getTime(),'yyyy-MM-dd HH:mm:ss') }} 
           </template>
         </el-table-column>
         <el-table-column prop="caseNo" label="审批案件号">
@@ -126,6 +126,7 @@ export default {
     // })
   },
   methods: {
+    formatTime,
     query(rows, page) {
       const params = Object.assign({
         rows, page
@@ -135,8 +136,8 @@ export default {
         delete params.startTime;
         delete params.endTime;
       }else{
-        params.startTime = params.startTime ? timeToUnix(params.startTime) : '';
-        params.endTime = params.endTime ? timeToUnix(params.endTime) : '';
+        //params.startTime = params.startTime ? timeToUnix(params.startTime) : '';
+        //params.endTime = params.endTime ? timeToUnix(params.endTime) : '';
         if(!params.startTime){
           this.$message({
             message: '开始时间不能为空',
@@ -151,7 +152,8 @@ export default {
           })
           return false;
         }
-        if(params.startTime >= params.endTime){
+        console.log(timeToUnix(params.startTime),timeToUnix(params.endTime))
+        if(timeToUnix(params.startTime) >= timeToUnix(params.endTime)){
           this.$message({
             message: '开始日期应小于截止日期',
             type: 'error'

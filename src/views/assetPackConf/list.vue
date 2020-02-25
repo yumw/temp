@@ -19,7 +19,7 @@
           <el-form-item label="资产标签">
           <el-select v-model="form.caseLabel" filterable>
             <el-option key="" label="全部" value=""></el-option>
-            <el-option v-for="item in $store.state.globalData.assetTag" :key="item.caseLabel" :label="item.caseLabel" :value="item.caseLabel"></el-option>
+            <el-option v-for="(item,index) in $store.state.globalData.assetTag" :key="index" :label="item.caseLabel" :value="item.caseLabel"></el-option>
           </el-select>
       </el-form-item>
       <el-form-item>

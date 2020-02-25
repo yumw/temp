@@ -63,7 +63,7 @@
 </template>
 <script>
 import { findRole, query, update, getMenuPrivilegeList, saveMenuPrivilege, manualSycn } from "@/api/permissionsmgmt";
-import { asyncRouterMap } from "@/router/index";
+//import { asyncRouterMap } from "@/router/index";
 import { filterMenu } from "@/store/modules/permission";
 import { deepCopy } from "@/utils";
 
@@ -188,26 +188,6 @@ export default {
           });
         }
       }
-      
-      return false;
-      // let treeData;
-      // if (res.data.roleAuthority) {
-      //   this.checkKeys = res.data.roleAuthority.split(",");
-      // } else {
-      //   this.checkKeys = [];
-      // }
-      // if (showCheck) {
-      //   treeData = this.toTreeData(asyncRouterMap);
-      //   console.log(asyncRouterMap);
-      //   this.data = treeData;
-      //   this.editDialogVisible = true;
-      // } else {
-      //   const newAsync = deepCopy(asyncRouterMap);
-      //   filterMenu(newAsync, this.checkKeys);
-      //   treeData = this.toTreeData(newAsync);
-      //   this.data = treeData;
-      //   this.detailDialogVisible = true;
-      // }
     },
     handleEdit(id) {
       this.rowId = id;
@@ -288,40 +268,14 @@ export default {
         //const res = await saveMenuPrivilege(params);
         
       });
-      
-
-
-      return false;
-      const roleAuthority = []; // 菜单编码数组
-      const roleAuthorityName = []; // 资源名称
-      for (let i = 0; i < selectData.length; i++) {
-        const select = this.searchFromData(selectData[i]);
-        if (/^[0-9]*$/.test(select.id)) {
-          // 如果监测到id是数字，就不往列表里塞数据
-        } else {
-          roleAuthority.push(select.id);
-          roleAuthorityName.push(select.name);
-        }
-      }
-      for (let i = 0; i < this.tableData.length; i++) {
-        if (this.tableData[i].id === id) {
-          const data = this.tableData[i];
-          const params = {
-            id: data.id,
-            roleCode: data.roleCode, // 角色编码
-            roleName: data.roleName,
-            roleAuthority: roleAuthority.join(","), // 资源编码 菜单编码
-            roleAuthorityName: roleAuthorityName.join(","), // 资源名称 菜单名称
-            updateTime: data.updateTime
-          };
-          update(params);
-          this.editDialogVisible = false;
-        }
-      }
+    
     },
     renderTreeCont(h, {node, data, store}){
+      // return (
+      //   <span>{data.id}  {data.text}   flag:{data.flag} type:{data.type}</span>
+      // )
       return (
-        <span>{data.id}  {data.text}   flag:{data.flag} type:{data.type}</span>
+        <span>{data.text}</span>
       )
     },
     manualSycn() {

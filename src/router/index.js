@@ -56,203 +56,7 @@ export const constantRouterMap = [
   { path: '*', redirect: '/404', hidden: true }
 ]
 
-export const asyncRouterMap = [
-  // {
-  //   path: '/casemgmt',
-  //   component: Layout,
-  //   redirect: '/casemgmt/LoanApplyList',
-  //   name: '进件管理',
-  //   meta: { title: '进件管理', icon: 'info' },
-  //   children: [
-  //     {
-  //       id: 'LoanApplyList',
-  //       path: 'LoanApplyList',
-  //       name: '进件申请列表',
-  //       component: () => import('@/views/casemgmt/LoanApplyList'),
-  //       meta: { title: '进件申请列表', icon: 'table' }
-  //     },
-  //     {
-  //       path: 'LoanApplyListDetail/:serialNumber',
-  //       name: '进件查看详情',
-  //       component: () => import('@/views/casemgmt/LoanApplyListDetail'),
-  //       meta: { title: '进件查看详情' },
-  //       hidden: true
-  //     },
-  //     {
-  //       id: 'LoanAccessoryList',
-  //       path: 'LoanAccessoryList',
-  //       name: '贷款附件列表',
-  //       component: () => import('@/views/casemgmt/LoanAccessoryList'),
-  //       meta: { title: '贷款附件列表', icon: 'tree' }
-  //     },
-  //     {
-  //       id: 'WithDrawList',
-  //       path: 'WithDrawList',
-  //       name: '循环提现列表',
-  //       component: () => import('@/views/casemgmt/WithDrawList'),
-  //       meta: { title: '循环提现列表', icon: 'tree' }
-  //     },
-  //     {
-  //       id: 'RepayList',
-  //       path: 'RepayList',
-  //       name: '还款结清列表',
-  //       component: () => import('@/views/casemgmt/RepayList'),
-  //       meta: { title: '还款结清列表', icon: 'tree' }
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/channelmgmt',
-  //   component: Layout,
-  //   redirect: '/channelmgmt/ChannelCfg',
-  //   name: '渠道管理',
-  //   meta: { title: '渠道管理', icon: 'channelmgmt' },
-  //   children: [
-  //     {
-  //       id: 'ChannelCfg',
-  //       path: 'ChannelCfg',
-  //       name: '渠道配置',
-  //       component: () => import('@/views/channelmgmt/ChannelCfg'),
-  //       meta: { title: '渠道配置', icon: 'table' }
-  //     },
-  //     {
-  //       id: 'MerchantCfg',
-  //       path: 'MerchantCfg',
-  //       name: '商户配置',
-  //       component: () => import('@/views/channelmgmt/MerchantCfg'),
-  //       meta: { title: '商户配置', icon: 'tree' }
-  //     },
-  //     {
-  //       id: 'ProductCfg',
-  //       path: 'ProductCfg',
-  //       name: '产品配置',
-  //       component: () => import('@/views/channelmgmt/ProductCfg'),
-  //       meta: { title: '产品配置', icon: 'tree' }
-  //     },
-  //     {
-  //       id: 'SmsValidateMgmt',
-  //       path: 'SmsValidateMgmt',
-  //       name: '短信校验管理',
-  //       component: () => import('@/views/channelmgmt/SmsValidateMgmt'),
-  //       meta: { title: '短信校验管理', icon: 'tree' }
-  //     }
-  //   ]
-  // },
-  // // {
-  // //   path: '/servicemgmt',
-  // //   component: Layout,
-  // //   redirect: '/servicemgmt/ServiceCfg',
-  // //   name: '服务管理',
-  // //   meta: { title: '服务管理', icon: 'table' },
-  // //   children: [
-  // //     {
-  // //       id: 'ServiceCfg',
-  // //       path: 'ServiceCfg',
-  // //       name: '服务配置',
-  // //       component: () => import('@/views/servicemgmt/ServiceCfg'),
-  // //       meta: { title: '服务配置', icon: 'table' }
-  // //     },
-  // //     {
-  // //       id: 'MerchantServiceCfg',
-  // //       path: 'MerchantServiceCfg',
-  // //       name: '商户服务配置',
-  // //       component: () => import('@/views/servicemgmt/MerchantServiceCfg'),
-  // //       meta: { title: '商户服务配置', icon: 'tree' }
-  // //     }
-  // //   ]
-  // // },
-  // {
-  //   path: '/taskmgmt',
-  //   component: Layout,
-  //   redirect: '/taskmgmt/RequestMgmt',
-  //   name: '任务管理',
-  //   meta: { title: '任务管理', icon: 'task' },
-  //   children: [
-  //     {
-  //       id: 'RequestMgmt',
-  //       path: 'RequestMgmt',
-  //       name: '请求管理',
-  //       component: () => import('@/views/taskmgmt/RequestMgmt'),
-  //       meta: { title: '请求管理', icon: 'table' }
-  //     },
-  //     {
-  //       id: 'FeedbackMgmt',
-  //       path: 'FeedbackMgmt',
-  //       name: '反馈管理',
-  //       component: () => import('@/views/taskmgmt/FeedbackMgmt'),
-  //       meta: { title: '反馈管理', icon: 'tree' }
-  //     },
-  //     {
-  //       id: 'AbnormalMgmt',
-  //       path: 'AbnormalMgmt',
-  //       name: '异常管理',
-  //       component: () => import('@/views/taskmgmt/AbnormalMgmt'),
-  //       meta: { title: '异常管理', icon: 'tree' }
-  //     },
-  //     {
-  //       path: 'TaskDetails/:source',
-  //       name: '详情',
-  //       component: () => import('@/views/taskmgmt/TaskDetails'),
-  //       meta: { title: '详情' },
-  //       hidden: true
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/downloadmgmt',
-  //   component: Layout,
-  //   redirect: '/downloadmgmt/download',
-  //   name: '文件管理',
-  //   meta: { title: '文件管理', icon: 'download' },
-  //   children: [
-  //     {
-  //       id: 'download',
-  //       path: 'download',
-  //       name: '对账文件管理',
-  //       component: () => import('@/views/downloadmgmt/Download'),
-  //       meta: { title: '对账文件管理', icon: 'download' }
-  //     },
-  //     {
-  //       id: 'downloadFileResult',
-  //       path: 'downloadFileResult',
-  //       name: '文件拉取管理',
-  //       component: () => import('@/views/downloadmgmt/DownloadFileResult'),
-  //       meta: { title: '文件拉取管理', icon: 'download' }
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/keyValueMgmt',
-  //   component: Layout,
-  //   redirect: '/keyValueMgmt/main',
-  //   name: '键值对管理',
-  //   meta: { title: '键值对管理', icon: 'setting' },
-  //   children: [
-  //     {
-  //       id: 'keyValueMgmt',
-  //       path: 'main',
-  //       name: '键值对管理 ',
-  //       component: () => import('@/views/keyValueMgmt/KeyValueMgmt'),
-  //       meta: { title: '键值对管理', icon: 'setting' }
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/permissionsmgmt',
-  //   component: Layout,
-  //   redirect: '/permissionsmgmt',
-  //   name: '权限管理',
-  //   meta: { title: '权限管理', icon: 'lock-open' },
-  //   children: [
-  //     {
-  //       id: 'permissionsmgmt',
-  //       path: '',
-  //       name: '权限管理 ',
-  //       component: () => import('@/views/permissionsmgmt/permissionsmgmt'),
-  //       meta: { title: '权限管理', icon: 'lock-open' }
-  //     }
-  //   ]
-  // },
+/* export const asyncRouterMap = [
   {
     path: '',
     component: Layout,
@@ -392,8 +196,8 @@ export const asyncRouterMap = [
     ]
   },
 ]
-
-export const routerMap = {
+*/
+const routerMap = {
   'customerList':{
     id: 'customerList',
     path: 'customerList',
@@ -507,10 +311,70 @@ export const routerMap = {
   }
 }
 
+export function getRoute(data){
+  let routes = []
+  for(let i=0; i< data.length;i++){
+    let item = data[i]
+    if(item.children && item.children.length){
+      let children = [];
+      for(let j=0; j<item.children.length; j++){
+        let item2 = item.children[j];
+        if(item2.urlFlag && routerMap[item2.urlFlag]){
+          let item2Map = routerMap[item2.urlFlag];
+          if(Array.isArray(item2Map)){
+            for(let k=0; k<item2Map.length;k++){           
+              if(item2Map[k].hidden){
+                children.push(item2Map[k])
+              }else{
+                children.push(Object.assign({},item2Map[k],{
+                  id: item2.id,
+                  meta: {title: item2.text,id: item2.id}
+                }))
+              }
+              
+            }
+          }else{
+            children.push(
+              Object.assign({},routerMap[item2.urlFlag],{
+                id: item2.id,
+                meta: {title: item2.text,id: item2.id}
+              })
+            )
+          }
+        }
+      }
+      routes.push({
+        path:'',
+        component: Layout,
+        redirect: '',
+        name: item.text,
+        meta: { title: item.text, icon: '',id:item.id },
+        children
+      })
+    }else{
+      if(item.urlFlag && routerMap[item.urlFlag]){
+        routes.push({
+          path: '',
+          name: item.text,
+          hasOneShowingChildren: true,
+          component: Layout,
+          children: [
+            Object.assign({},routerMap[item.urlFlag],{
+              id: item.id,
+              meta: {title: item.text,id: item.id}
+            })
+          ]
+        })
+      }
+    }
+  }
+  return routes;
+}
+
 const router = new Router({
   // mode: 'history', //后端支持可开
   scrollBehavior: () => ({ y: 0 }),
-  routes: constantRouterMap.concat(asyncRouterMap)
+  routes: constantRouterMap
 })
 
 export default router

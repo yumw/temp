@@ -12,6 +12,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
+       // target: 'http://11.215.108.23:8080',
         target: 'http://10.192.172.86:8080',
         //target: 'http://10.192.172.9:8080',
         // target: 'http://11.113.0.92:8181', // 接口的域名 sit

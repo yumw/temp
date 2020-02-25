@@ -2,6 +2,7 @@
   <el-menu class="navbar" mode="horizontal">
     <hamburger class="hamburger-container" :toggleClick="toggleSideBar" :isActive="sidebar.opened"></hamburger>
     <breadcrumb></breadcrumb>
+    <div class="clock">{{ clock }}</div>
     <el-dropdown class="avatar-container" trigger="click">
       <div class="avatar-wrapper">
         <div>hi，{{username}}</div>
@@ -60,7 +61,8 @@ export default {
       //   confirmPassword: ''
       // },
       formLabelWidth: '120',
-      username:''
+      username:'',
+      clock:''
     }
   },
   computed: {
@@ -71,6 +73,7 @@ export default {
     ])
   },
   mounted(){
+    setInterval(()=>{this.clock_12h()},1000)
     findUserName().then(res => {
       if (res) {
         this.username = res.resData
@@ -99,6 +102,50 @@ export default {
       }).catch(error => {
         console.log(error)
       })
+    },
+    clock_12h(){ 
+      var today = new Date(); //获得当前时间 
+      //获得年、月、日，Date()函数中的月份是从0－11计算 
+      var year = today.getFullYear();   
+      var month = today.getMonth()+1; 
+      var date = today.getDate(); 
+      var hour = today.getHours();  //获得小时、分钟、秒 
+      var minute = today.getMinutes(); 
+      var second = today.getSeconds(); 
+      minute = minute < 10 ? '0' + minute : minute;
+      second = second < 10 ? '0' + second : second;
+  
+      var apm="AM"; //默认显示上午: AM 
+      if (hour>12) //按12小时制显示 
+      { 
+      hour=hour-12; 
+      apm="PM"  ; 
+      } 
+      var weekday = 0; 
+      switch(today.getDay()){ 
+      case 0: 
+          weekday = "星期日"; 
+      break; 
+      case 1: 
+          weekday = "星期一"; 
+      break; 
+      case 2: 
+          weekday = "星期二"; 
+      break; 
+      case 3: 
+          weekday = "星期三"; 
+      break; 
+      case 4: 
+          weekday = "星期四"; 
+      break; 
+      case 5: 
+          weekday = "星期五"; 
+      break; 
+      case 6: 
+          weekday = "星期六"; 
+      break; 
+      } 
+      this.clock = `${year}年${month}月${date}日 ${hour}:${minute}:${second} ${apm} ${weekday}`; 
     }
   }
 }
@@ -143,6 +190,12 @@ export default {
       }
     }
   }
+}
+.clock{
+  position: absolute;
+  right: 150px;
+  top: 6px;
+  font-size: 12px;
 }
 </style>
 
