@@ -35,15 +35,10 @@ const globalData = {
       commit('SET_VALUES', { assetPackNo })
     },
     getAssetTag({commit}){
-      let assetTag = [
-        {key:'REJ_1',value:'REJ_1',label:'REJ_1'},
-        {key:'REJ_2',value:'REJ_2',label:'REJ_2'},
-        {key:'REJ_3',value:'REJ_3',label:'REJ_3'}
-      ]
-      commit('SET_VALUES', { assetTag })
-
       findAllLabel().then(res => {
-        const assetTag = res.resData
+        const _assetTag = res.resData
+        let assetTag = [];
+        for(let i in _assetTag){assetTag.push({caseLabel:_assetTag[i]})}
         commit('SET_VALUES', { assetTag })
       }).catch(error => {
         console.log(error)

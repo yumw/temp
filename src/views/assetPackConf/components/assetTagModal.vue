@@ -13,6 +13,7 @@
         ref="tree"
         :data="data"
         show-checkbox
+        node-key="caseLabel"
         :expand-on-click-node="false"
         :default-expand-all="true"
         :props="defaultProps"
