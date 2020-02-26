@@ -23,3 +23,11 @@ export function deleteChannel(data) {
     data
   })
 }
+
+export function findChannelByCode(data) {
+  return request({
+    url: 'bg/channel/findChannelByCode',
+    method: 'post',
+    data
+  })
+}

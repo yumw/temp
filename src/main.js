@@ -11,6 +11,7 @@ import '@/styles/index.scss' // global css
 import App from './App'
 import router from './router'
 import store from './store'
+import * as filters from './utils/filters'
 
 import '@/icons' // icon
 import '@/permission' // permission control
@@ -20,10 +21,14 @@ Vue.use(ElementUI, { locale })
 
 Vue.config.productionTip = false
 
+Object.keys(filters).forEach(key => {
+  Vue.filter(key, filters[key])
+})
 Vue.prototype.hasPerm = function(permission){
   let btns = store.state.permission.btns;
   return btns.indexOf(permission) > -1;
 }
+
 
 new Vue({
   el: '#app',

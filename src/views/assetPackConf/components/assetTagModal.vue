@@ -71,6 +71,7 @@ export default {
       });
     },
     edit(record) {
+      this.$store.dispatch('getAssetTag') //获取标签
       this.data = [{
         key: "0",
         caseLabel: "全选",

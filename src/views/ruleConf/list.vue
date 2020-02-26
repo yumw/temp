@@ -36,7 +36,7 @@
         </el-table-column>
         <el-table-column prop="cooperativeMode" label="合作模式">
           <template slot-scope="scope" v-if="scope.row.cooperativeMode">
-              {{ cooperativeMode[scope.row.cooperativeMode] }}
+              {{ scope.row.cooperativeMode | cooperativeMode }}
           </template>
         </el-table-column>
         <el-table-column prop="ruleDate" label="分发日期" width="200">
@@ -94,12 +94,7 @@ export default {
       tableData: [],
       total: 0,
       rows: 10,
-      page: 1,
-      cooperativeMode: {
-        '0': '中邮自营',
-        '1': '联合贷款',
-        '2': '资方全资'
-      }
+      page: 1
     }
   },
   created() {

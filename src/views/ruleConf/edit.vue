@@ -27,7 +27,7 @@
       </el-form-item>
       <el-form-item label="每日分发上限" prop="dayLimit">
         <el-col :span="20">
-          <el-input v-model="formAddEdit.dayLimit" auto-complete="off" ></el-input>
+          <el-input v-model.number="formAddEdit.dayLimit" auto-complete="off" ></el-input>
         </el-col>
         <el-col :span="4">&nbsp;笔</el-col>
       </el-form-item>
@@ -78,7 +78,7 @@ export default  {
         longTermFalg: [{ required: true, message: '请选择分发日期' }],
         dayLimit: [
           { required: true, message: '请输入每日分发上限' }, 
-          { min: 0, max: 99999999, message: '每日分发上限格式不正确' }
+          { type: 'number', min: 0, max: 99999999, message: '每日分发上限0-99999999' }
         ],
         distFlag: [{ required: true, message: '请选择分发开关' }],
         ruleDate: [{ required: true, message: '请输入日期范围' }],
@@ -95,12 +95,15 @@ export default  {
       partner: state => state.globalData.partner
     })
   },
+  created(){
+    this.$store.dispatch('getPartner') //获取所有资方
+  },
   mounted(e){
     console.log(111,this.$route.params.record)
     let { record } = this.$route.params
     if(record){
       this.type = 1;
-      record.dayLimit = String(record.dayLimit)
+      record.dayLimit = Number(record.dayLimit)
       this.formAddEdit = Object.assign(this.formAddEdit,record);
       this.formAddEdit.ruleDate = [formatTime(this.formAddEdit.ruleBeginDate,'yyyy-MM-dd'),formatTime(this.formAddEdit.ruleEndDate,'yyyy-MM-dd')]
       this.formAddEdit.distTime = [this.formAddEdit.distBeginTime,this.formAddEdit.distEndTime]
@@ -128,7 +131,7 @@ export default  {
             longTermFalg: this.formAddEdit.longTermFalg,
             distBeginTime: this.formAddEdit.distTime[0],
             distEndTime: this.formAddEdit.distTime[1],
-            dayLimit: Number(this.formAddEdit.dayLimit),
+            dayLimit: this.formAddEdit.dayLimit,
             //ruleMode: this.formAddEdit.ruleMode,
             distFlag: this.formAddEdit.distFlag,
           }

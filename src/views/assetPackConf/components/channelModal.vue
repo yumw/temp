@@ -48,14 +48,14 @@ export default {
         label: "label",
         children: "children"
       },
-      channel:[],
+      //channel:[],
       checkList: [],
       searchForm:''
     };
   },
   computed:{
     ...mapState({
-      //channel: state => state.globalData.channel
+      channel: state => state.globalData.channel
     })
   },
   mounted() {
@@ -74,15 +74,14 @@ export default {
       });
     },
     edit(record) {
-      
-      this.channel = [...this.$store.state.globalData.channel];
+      this.$store.dispatch('getChannel') //获取所有进件渠道
+      //this.channel = [...this.$store.state.globalData.channel];
       this.data = [{
         key: "0",
         channelName: "全选",
         children: this.channel
       }]
       this.searchForm = '';
-      console.log(this.data)
       this.visible = true;
       this.$nextTick(() => {
         this.list.length && this.$refs.tree.setCheckedKeys(this.list.split(","));
@@ -97,7 +96,7 @@ export default {
     },
     renderTreeCont(h, {node, data, store}){
       return (
-        <span>{data.channelName}</span>
+        <span>{data.channelCode} {data.channelName}</span>
       )
     }
   }

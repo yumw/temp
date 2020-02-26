@@ -17,7 +17,7 @@
   </div>
 </template>
 <script>
-import { addChannel, updateChannel } from '@/api/channel'
+import { addChannel, updateChannel, findChannelByCode } from '@/api/channel'
 export default  {
   data() {
     return {
@@ -36,7 +36,8 @@ export default  {
           { required: true, message: '渠道名称不能为空' }
         ]
       },
-      visible: false
+      visible: false,
+      channelCode: ''
     }
   },
   methods:{
@@ -46,6 +47,7 @@ export default  {
         this.type = 1;
         this.title = "编辑";
         this.formAddEdit = {...record};
+        this.channelCode = this.formAddEdit.channelCode;
       }else{
         this.type = 0;
         this.title = "新增";
@@ -69,12 +71,28 @@ export default  {
             channelCode: this.formAddEdit.channelCode,
             channelName
           }
-          if(this.type == 0){ //新增
-            this.addChannel(params);
-          }else{
-            params.id = this.formAddEdit.id
-            this.updateChannel(params);
-          }
+          findChannelByCode({ channelCode: params.channelCode }).then(res => {
+            if (
+              res.resData &&
+              res.resData.list &&
+              ((this.type === 0 && res.resData.list.length > 0) ||
+                (this.type === 1 &&
+                  res.resData.list.length > 0 &&
+                  res.resData.list[0].channelCode !== this.channelCode))
+            ) {
+              this.$message({
+                type: "error",
+                message: "该渠道号已存在，请勿重复添加！"
+              });
+            } else {
+              if(this.type == 0){ //新增
+                this.addChannel(params);
+              }else{
+                params.id = this.formAddEdit.id
+                this.updateChannel(params);
+              }
+            }
+          });
         }else{
           return false;
         }

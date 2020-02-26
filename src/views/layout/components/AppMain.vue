@@ -20,15 +20,16 @@ export default {
     // }
   },
   created() {
-    this.$store.dispatch('getChannel') //获取所有进件渠道
-    this.$store.dispatch('getAssetPackNo')
+    // this.$store.dispatch('getChannel') //获取所有进件渠道
+   
 
-    this.$store.dispatch('getAssetTag')
-    this.$store.dispatch('getProduct') //获取所有产品号
-    this.$store.dispatch('getPartner') //获取所有资方
+    // this.$store.dispatch('getAssetTag') //获取标签
+    // this.$store.dispatch('getProduct') //获取所有产品号
+    // this.$store.dispatch('getPartner') //获取所有资方
     
     this.$store.dispatch('getCooperativeMode')
 
+  // this.$store.dispatch('getAssetPackNo')
     //this.$store.dispatch('getChannelInfo')
   }
 }

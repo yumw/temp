@@ -25,11 +25,11 @@
       </el-form-item>
       <el-form-item label="" v-if="form.timeType == 2">
         <el-col :span="11">
-          <el-date-picker type="date" placeholder="选择日期" v-model="form.startTime" @change="beginTimeChanged" value-format="yyyy-MM-dd" style="width: 100%;"></el-date-picker>
+          <el-date-picker type="date" placeholder="选择日期" v-model="form.startTime" value-format="yyyy-MM-dd" style="width: 100%;"></el-date-picker>
         </el-col>
         <el-col class="line" :span="2" style="text-align:center;">-</el-col>
         <el-col :span="11">
-          <el-date-picker type="date" placeholder="选择日期" v-model="form.endTime" @change="endTimeChanged" value-format="yyyy-MM-dd" style="width: 100%;"></el-date-picker>
+          <el-date-picker type="date" placeholder="选择日期" v-model="form.endTime" value-format="yyyy-MM-dd" style="width: 100%;"></el-date-picker>
         </el-col>
       </el-form-item>
 
@@ -67,7 +67,7 @@
         </el-table-column>
         <el-table-column prop="cooperativeMode" label="合作模式">
           <template slot-scope="scope" v-if="scope.row.cooperativeMode">
-              {{ cooperativeMode[scope.row.cooperativeMode] }}
+              {{ scope.row.cooperativeMode | cooperativeMode }}
           </template>
         </el-table-column>
         <el-table-column prop="investRatio" label="中邮出资比例">
@@ -108,22 +108,12 @@ export default {
       selection: [],
       message: '',
       repayTypeList: [],
-      tradeStatusList: [],
-      cooperativeMode: {
-        '0': '中邮自营',
-        '1': '联合贷款',
-        '2': '资方全资'
-      }
+      tradeStatusList: []
     }
   },
   created() {
+    this.$store.dispatch('getChannel') //获取所有进件渠道
     this.query(this.rows, this.page)
-    // optionsQuery('loan_repay_type').then(response => {
-    //   this.repayTypeList = response.data
-    // })
-    // optionsQuery('loan_repay_status').then(response => {
-    //   this.tradeStatusList = response.data
-    // })
   },
   methods: {
     formatTime,
@@ -152,9 +142,9 @@ export default {
           })
           return false;
         }
-        if(timeToUnix(params.startTime) >= timeToUnix(params.endTime)){
+        if(timeToUnix(params.startTime) > timeToUnix(params.endTime)){
           this.$message({
-            message: '开始日期应小于截止日期',
+            message: '开始日期不能晚于截止日期',
             type: 'error'
           })
           return false;
@@ -192,32 +182,33 @@ export default {
       }
       return cellValue
     },
-    beginTimeChanged(value) {
-      const beginTime = new Date(value)
-      const endTime = new Date(this.form.edate)
-      if (this.form.edate && beginTime.getTime() > endTime.getTime()) {
-        this.form.sdate = null
-        this.$message({
-          message: '开始日期应小于截止日期',
-          type: 'error'
-        })
-        return
-      }
-    },
-    endTimeChanged(value) {
-      const beginTime = new Date(this.form.sdate)
-      const endTime = new Date(value)
-      if (endTime.getTime() && this.form.sdate && beginTime.getTime() > endTime.getTime()) {
-        this.form.edate = null
-        this.$message({
-          message: '截止日期应大于开始日期',
-          type: 'error'
-        })
-        return
-      }
-    },
+    // beginTimeChanged(value) {
+    //   console.log(value)
+    //   const beginTime = new Date(value)
+    //   const endTime = new Date(this.form.edate)
+    //   if (this.form.edate && beginTime.getTime() > endTime.getTime()) {
+    //     this.form.sdate = null
+    //     this.$message({
+    //       message: '开始日期应小于截止日期',
+    //       type: 'error'
+    //     })
+    //     return
+    //   }
+    // },
+    // endTimeChanged(value) {
+    //   const beginTime = new Date(this.form.sdate)
+    //   const endTime = new Date(value)
+    //   if (endTime.getTime() && this.form.sdate && beginTime.getTime() > endTime.getTime()) {
+    //     this.form.edate = null
+    //     this.$message({
+    //       message: '截止日期应大于开始日期',
+    //       type: 'error'
+    //     })
+    //     return
+    //   }
+    // },
     changeTimeType(e){
-        console.log(e)
+        //console.log(e)
     }
   }
 }

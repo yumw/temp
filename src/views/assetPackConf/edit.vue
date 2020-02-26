@@ -87,20 +87,28 @@ export default  {
     })
   },
   mounted(e){
-    console.log(111,this.$route.params.record)
+    //console.log(111,this.$route.params.record)
     let { record } = this.$route.params
     if(record){
       this.type = 1;
-      this.formAddEdit = record;
-    }else{
-      this.formAddEdit = {
-        packageCode: '',
-        caseLabel: '',
-        channelCode: '',
-        channelName: '',
-        prodCode: '',
-        ouputRate: '',
+      this.formAddEdit = Object.assign(this.formAddEdit,record);
+      let channelCode = this.formAddEdit.channelCode.split(',');
+      
+      let channelName = this.formAddEdit.channelName.split(',');
+      for(let i in channelCode){
+        channelName[i] = channelCode[i] + channelName[i]
       }
+      this.formAddEdit.channelName = channelName.join('\n');
+    }else{
+      this.type = 0
+      // this.formAddEdit = {
+      //   packageCode: '',
+      //   caseLabel: '',
+      //   channelCode: '',
+      //   channelName: '',
+      //   prodCode: '',
+      //   ouputRate: '',
+      // }
     }
     
   },

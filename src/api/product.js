@@ -23,3 +23,11 @@ export function deleteProduct(data) {
     data
   })
 }
+
+export function findProductByCode(data) {
+  return request({
+    url: '/bg/product/findProductByCode',
+    method: 'post',
+    data
+  })
+}
