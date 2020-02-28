@@ -25,6 +25,8 @@ service.interceptors.request.use(
     // if (store.getters.token) {
     //   config.headers['token'] = getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
     // }
+    config.headers['ip'] = window.location.host;
+    console.log(config)
     return config
   },
   (error) => {
@@ -39,12 +41,12 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   (response) => {
     loadingInstance.close()
-    if (response.headers['content-type'] && response.headers['content-type'].indexOf('text/html') >= 0) {
-      const url = window.location.href
-      const loginPath = `${window.location.origin}/me?redirect_uri=${url}`
-      window.location.replace(loginPath)
-      return
-    }
+    // if (response.headers['content-type'] && response.headers['content-type'].indexOf('text/html') >= 0) {
+    //   const url = window.location.href
+    //   const loginPath = `${window.location.origin}/me?redirect_uri=${url}`
+    //   window.location.replace(loginPath)
+    //   return
+    // }
     /**
      * code为非20000是抛错 可结合自己业务进行修改
      */

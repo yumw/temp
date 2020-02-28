@@ -21,8 +21,8 @@
         <el-table-column label="是否我司催收" fixed="right" width="160">
           <template slot-scope="scope">
             <el-radio-group :value="scope.row.isUrgeRepay">
-              <el-radio label="1" @change="itemChange($event,scope.row,'1')">是</el-radio>
-              <el-radio label="0" @change="itemChange($event,scope.row,'0')">否</el-radio>
+              <el-radio label="Y" @change="itemChange($event,scope.row,'Y')">是</el-radio>
+              <el-radio label="N" @change="itemChange($event,scope.row,'N')">否</el-radio>
             </el-radio-group>
           </template>
         </el-table-column>
@@ -135,7 +135,7 @@ export default {
         });
     },
     itemChange(e, row, type) {
-      console.log(e, row);
+      console.log(e, row, type);
       this.$confirm("是否确认修改？", "提示", {
         type: "warning"
       }).then(() => {
