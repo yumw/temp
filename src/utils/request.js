@@ -25,8 +25,7 @@ service.interceptors.request.use(
     // if (store.getters.token) {
     //   config.headers['token'] = getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
     // }
-    config.headers['ip'] = window.location.host;
-    console.log(config)
+    //config.headers['ip'] = window.location.host;
     return config
   },
   (error) => {

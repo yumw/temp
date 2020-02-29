@@ -1,27 +1,42 @@
 <template>
   <div class="app-container">
-    <el-button type="primary" @click="manualSycn" v-if="hasPerm('manualSyncRole')">手动同步角色</el-button> 
+    <el-button type="primary" @click="manualSycn" v-if="hasPerm('manualSyncRole')">手动同步角色</el-button>
     <el-table ref="multipleTable" :data="tableData" border :stripe="stripe" style="width: 100%">
-      
-        <el-table-column label="序号" width="50" type="index"></el-table-column>
+      <el-table-column label="序号" width="50" type="index"></el-table-column>
       <el-table-column prop="roleName" label="角色" width></el-table-column>
       <!-- <el-table-column prop="roleCode" label="角色ID" width></el-table-column>
-      <el-table-column prop="updateTime" label="更新时间" width></el-table-column> -->
+      <el-table-column prop="updateTime" label="更新时间" width></el-table-column>-->
       <el-table-column label="操作" width>
         <template slot-scope="scope" class="control">
-          <div class="control-item edit-text" @click="handleEdit(scope.row.id)" v-if="hasPerm('saveMenuPrivilege')">
+          <div
+            class="control-item edit-text"
+            @click="handleEdit(scope.row.id)"
+            v-if="hasPerm('saveMenuPrivilege')"
+          >
             <img src="../../assets/edit.png" class="edit-icon" />
             <span>编辑</span>
           </div>
-          <div class="control-item detail-text" @click="handleDetail(scope.row.id)" v-if="hasPerm('saveMenuPrivilege')">
+          <div
+            class="control-item detail-text"
+            @click="handleDetail(scope.row.id)"
+            v-if="hasPerm('saveMenuPrivilege')"
+          >
             <img src="../../assets/search.png" class="edit-icon" />
             <span>详情</span>
           </div>
         </template>
       </el-table-column>
     </el-table>
-    <el-pagination class="mt10" @size-change="handleSizeChange" @current-change="handleCurrentChange" :page-sizes="[10, 20, 30, 40]" :page-size="rows" layout="total,sizes, prev, pager, next, jumper" :total="total">
-      </el-pagination>
+    <el-pagination
+      class="mt10"
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :page-sizes="[10, 20, 30, 40]"
+      :page-size="rows"
+      :current-page.sync="page"
+      layout="total,sizes, prev, pager, next, jumper"
+      :total="total"
+    ></el-pagination>
     <el-dialog :visible.sync="editDialogVisible" width="80%">
       <h3>权限设置</h3>
       <!-- <span>超级管理员权限列表</span> -->
@@ -34,7 +49,7 @@
           ref="tree"
           highlight-current
           :props="defaultProps"
-          :default-checked-keys="checkKeys"  
+          :default-checked-keys="checkKeys"
           :render-content="renderTreeCont"
         ></el-tree>
       </div>
@@ -51,7 +66,7 @@
           :data="data"
           default-expand-all
           node-key="id"
-          ref="tree"
+          ref="tree2"
           highlight-current
           :props="defaultProps"
           :render-content="renderTreeCont"
@@ -62,7 +77,14 @@
   </div>
 </template>
 <script>
-import { findRole, query, update, getMenuPrivilegeList, saveMenuPrivilege, manualSycn } from "@/api/permissionsmgmt";
+import {
+  findRole,
+  query,
+  update,
+  getMenuPrivilegeList,
+  saveMenuPrivilege,
+  manualSycn
+} from "@/api/permissionsmgmt";
 //import { asyncRouterMap } from "@/router/index";
 import { filterMenu } from "@/store/modules/permission";
 import { deepCopy } from "@/utils";
@@ -86,21 +108,22 @@ export default {
 
       total: 0,
       rows: 10,
-      page: 1,
+      page: 1
     };
   },
   components: {},
   computed: {},
   beforeMount() {},
   async mounted() {
-    
-    this.query(this.rows, this.page)
+    this.query(this.rows, this.page);
   },
   methods: {
     async query(rows, page) {
-      let params ={
-        rows, page
-      }
+      this.page = page;
+      let params = {
+        rows,
+        page
+      };
       const res = await findRole(params);
       if (res) {
         this.tableData = res.resData.list;
@@ -108,83 +131,82 @@ export default {
       }
     },
     handleSizeChange(val) {
-      this.rows = val
-      this.query(this.rows, this.page)
+      this.rows = val;
+      this.query(this.rows, this.page);
     },
     handleCurrentChange(val) {
-      this.page = val
-      this.query(this.rows, this.page)
+      this.page = val;
+      this.query(this.rows, this.page);
     },
-    getTreeData(data){
+    getTreeData(data) {
       let arr = [];
-      for(var i=0; i<data.length; i++){
-        let item = data[i]
-        if(item.flag === 1){
-          arr.push(item.id)
+      for (var i = 0; i < data.length; i++) {
+        let item = data[i];
+        if (item.flag === 1) {
+          arr.push(item.id);
         }
-        for(var j=0; j<item.children.length; j++){
-          let item2 = item.children[j]
-          if(item2.type === 0){
-            item2.id = `${item.id}_${item2.id}`
+        for (var j = 0; j < item.children.length; j++) {
+          let item2 = item.children[j];
+          if (item2.type === 0) {
+            item2.id = `${item.id}_${item2.id}`;
           }
-          if(item2.flag === 1){
-            arr.push(item2.id)
+          if (item2.flag === 1) {
+            arr.push(item2.id);
           }
-          for(let k in item2.children){
-            let item3 = item2.children[k]
-            if(item3.type === 0){
-              item3.id = `${item2.id}_${item3.id}`
+          for (let k in item2.children) {
+            let item3 = item2.children[k];
+            if (item3.type === 0) {
+              item3.id = `${item2.id}_${item3.id}`;
             }
-            if(item3.flag === 1){
-              arr.push(item3.id)
+            if (item3.flag === 1) {
+              arr.push(item3.id);
             }
           }
         }
       }
-        var newArr = [];
-        var item = '';
-        arr.forEach(item=>{
-             checked(item,data,newArr)
-        })
-        console.log(arr)
-        console.log(newArr);
-        
-        function checked(id,data,newArr){
-         data.forEach(item => {
-             if(item.id == id){
-                   if( item.children == undefined ){
-                        newArr.push(item.id)
-                    }
-             }else{
-                  if( item.children && item.children.length !=0 ){
-                     checked(id,item.children,newArr)
-                   }
-              }
-           });
-        };
-      return newArr
+      var newArr = [];
+      var item = "";
+      arr.forEach(item => {
+        checked(item, data, newArr);
+      });
+      console.log(arr);
+      console.log(newArr);
+
+      function checked(id, data, newArr) {
+        data.forEach(item => {
+          if (item.id == id) {
+            if (item.children == undefined) {
+              newArr.push(item.id);
+            }
+          } else {
+            if (item.children && item.children.length != 0) {
+              checked(id, item.children, newArr);
+            }
+          }
+        });
+      }
+      return newArr;
     },
     async getPermissionsList(id, showCheck) {
-      let params ={
+      let params = {
         id
-      }
+      };
       const res = await getMenuPrivilegeList(params);
 
-      if(res.resData){
-        this.data = res.resData
+      if (res.resData) {
+        this.data = res.resData;
         //console.log(JSON.stringify(res.resData))
-    
-        if(showCheck){
-          
+
+        if (showCheck) {
           this.editDialogVisible = true;
-          let treeCheck = this.getTreeData(this.data)
+          let treeCheck = this.getTreeData(this.data);
           this.$nextTick(() => {
             this.$refs.tree.setCheckedKeys(treeCheck);
           });
-        }else{
+        } else {
           this.detailDialogVisible = true;
           this.$nextTick(() => {
-            this.$refs.tree.filter()
+            this.$refs.tree2.filter();
           });
         }
       }
@@ -241,58 +263,62 @@ export default {
       let selectData1 = this.$refs.tree.getCheckedKeys();
       let selectData2 = this.$refs.tree.getHalfCheckedKeys();
       this.$nextTick(() => {
-        let selectData = [...selectData1,...selectData2]
-        console.log(selectData1,selectData2)
-        console.log(selectData)
-        
-        let menuIds = selectData.filter(item => typeof item === 'number' && !isNaN(item) );
-        let _privilegeIds = selectData.filter(item => typeof item === 'string' && item.indexOf('_') > -1 );
-        let privilegeIds = _privilegeIds.map(item => Number(item.split('_')[1]))
+        let selectData = [...selectData1, ...selectData2];
+        console.log(selectData1, selectData2);
+        console.log(selectData);
+
+        let menuIds = selectData.filter(
+          item => typeof item === "number" && !isNaN(item)
+        );
+        let _privilegeIds = selectData.filter(
+          item => typeof item === "string" && item.indexOf("_") > -1
+        );
+        let privilegeIds = _privilegeIds.map(item =>
+          Number(item.split("_")[1])
+        );
         let params = {
           id,
           menuIds: menuIds.join(),
-          privilegeIds: privilegeIds.join(),
-        }
-        console.log(params)
+          privilegeIds: privilegeIds.join()
+        };
+        console.log(params);
         //return false;
-      
+
         saveMenuPrivilege(params).then(res => {
-          if(res){
+          if (res) {
             this.editDialogVisible = false;
             this.$message({
-              type: 'success',
-              message: '编辑成功！'
-            })
+              type: "success",
+              message: "编辑成功！"
+            });
           }
-        })
+        });
         //const res = await saveMenuPrivilege(params);
-        
       });
-    
     },
-    renderTreeCont(h, {node, data, store}){
+    renderTreeCont(h, { node, data, store }) {
       // return (
       //   <span>{data.id}  {data.text}   flag:{data.flag} type:{data.type}</span>
       // )
-      return (
-        <span>{data.text}</span>
-      )
+      return <span>{data.text}</span>;
     },
     manualSycn() {
-      manualSycn().then(res => {
-        if (res) {
-          this.$message({
-            type: 'success',
-            message: '同步成功！'
-          })
-        }
-      }).catch(error => {
-        console.log(error)
-      })
+      manualSycn()
+        .then(res => {
+          if (res) {
+            this.$message({
+              type: "success",
+              message: "同步成功！"
+            });
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
-    filterNode(value,data,node){
-      console.log(value,data)
-      return data.flag === 1
+    filterNode(value, data, node) {
+      console.log(value, data);
+      return data.flag === 1;
     }
   }
 };

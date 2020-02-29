@@ -30,7 +30,7 @@
       </el-form-item>
       <el-form-item label="产品号" prop="prodCode">
         <el-select v-model="formAddEdit.prodCode" auto-complete="off" filterable>
-          <el-option v-for="item in product" :key="item.prodCode" :label="item.prodName" :value="item.prodCode"></el-option>
+          <el-option v-for="item in product" :key="item.prodCode" :label="item.prodCode" :value="item.prodCode"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="输出比例" prop="ouputRate">
@@ -87,7 +87,7 @@ export default  {
     })
   },
   mounted(e){
-    //console.log(111,this.$route.params.record)
+    console.log(111,this.$route.params.record)
     let { record } = this.$route.params
     if(record){
       this.type = 1;

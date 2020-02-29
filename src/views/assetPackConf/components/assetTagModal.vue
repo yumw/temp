@@ -18,6 +18,7 @@
         :default-expand-all="true"
         :props="defaultProps"
         :render-content="renderTreeCont"
+        :filter-node-method="filterNode"
       ></el-tree>
       
         <!-- node-key="caseLabel" -->
@@ -59,16 +60,7 @@ export default {
   },
   methods: {
     search(){
-      let list = this.assetTag.filter(item => item.caseLabel.indexOf(this.searchForm) > -1)
-      console.log(list)
-      this.data = [{
-        key: "0",
-        caseLabel: "全选",
-        children: list
-      }]
-      this.$nextTick(() => {
-        this.list.length && this.$refs.tree.setCheckedKeys(this.list.split(","));
-      });
+      this.$refs.tree.filter();
     },
     edit(record) {
       this.$store.dispatch('getAssetTag') //获取标签
@@ -77,6 +69,7 @@ export default {
         caseLabel: "全选",
         children: this.assetTag
       }]
+      console.log(this.data)
       this.searchForm = '';
       this.visible = true;
       this.$nextTick(() => {
@@ -95,6 +88,18 @@ export default {
       return (
         <span>{data.caseLabel}</span>
       )
+    },
+    filterNode(value, data, node) {
+      return data.caseLabel.toLowerCase().indexOf(this.searchForm.toLowerCase()) > -1;
+    }
+  },
+  watch: {
+    '$store.state.globalData.assetTag': function(data){
+      this.data = [{
+        key: "0",
+        caseLabel: "全选",
+        children: this.assetTag
+      }]
     }
   }
 };

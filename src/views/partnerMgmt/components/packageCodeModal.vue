@@ -61,6 +61,7 @@
         @current-change="handleCurrentChange"
         :page-sizes="[10, 20, 30, 40]"
         :page-size="rows"
+        :current-page.sync="page"
         layout="total,sizes, prev, pager, next, jumper"
         :total="total"
       ></el-pagination>
@@ -118,6 +119,7 @@ export default {
       //this.query(this.rows, this.page);
     },
     query(rows, page) {
+      this.page = page;
       const params = Object.assign(
         {
           rows: 100000,

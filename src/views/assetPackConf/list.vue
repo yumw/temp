@@ -4,7 +4,7 @@
       <el-form-item label="资产包编号">
         <el-input v-model="form.packageCode"></el-input>
       </el-form-item>
-      <el-form-item label="进件渠道">
+      <el-form-item label="来源渠道">
         <el-select v-model="form.channelCode" filterable>
           <el-option key label="全部" value></el-option>
           <el-option
@@ -21,7 +21,7 @@
           <el-option
             v-for="item in $store.state.globalData.product"
             :key="item.prodCode"
-            :label="item.prodName"
+            :label="item.prodCode"
             :value="item.prodCode"
           ></el-option>
         </el-select>
@@ -74,6 +74,7 @@
         @current-change="handleCurrentChange"
         :page-sizes="[10, 20, 30, 40]"
         :page-size="rows"
+        :current-page.sync="page"
         layout="total,sizes, prev, pager, next, jumper"
         :total="total"
       ></el-pagination>
@@ -115,6 +116,7 @@ export default {
   },
   methods: {
     query(rows, page) {
+      this.page = page;
       const params = Object.assign(
         {
           rows,
