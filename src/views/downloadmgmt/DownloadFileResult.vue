@@ -139,7 +139,7 @@
         </el-table-column>
         <el-table-column
           prop="id"
-          label="序号"
+          label="编号"
         ></el-table-column>
         <el-table-column
           prop="channelCode"

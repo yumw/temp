@@ -39,7 +39,7 @@
         <el-table-column label="中邮出资比例">
           <template
             slot-scope="scope"
-            v-if="scope.row.investRatio && scope.row.investRatio != ''"
+            v-if="scope.row.investRatio !== undefined"
           >{{ scope.row.investRatio }}%</template>
         </el-table-column>
         <el-table-column prop="packageCode" label="资产偏好"></el-table-column>

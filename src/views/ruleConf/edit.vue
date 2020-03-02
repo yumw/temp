@@ -19,11 +19,11 @@
       </el-form-item>
       <div v-if="formAddEdit.longTermFalg === 'N'">
       <el-form-item label="日期范围" prop="ruleDate">
-        <el-date-picker type="daterange" v-model="formAddEdit.ruleDate" start-placeholder="开始日期" end-placeholder="结束日期" range-separator="至"></el-date-picker>
+        <el-date-picker type="daterange" v-model="formAddEdit.ruleDate" :editable="false" start-placeholder="开始日期" end-placeholder="结束日期" range-separator="至"></el-date-picker>
       </el-form-item> 
       </div>
       <el-form-item label="每日分发时间" prop="distTime">
-        <el-time-picker is-range v-model="formAddEdit.distTime" value-format="HH:mm:ss" start-placeholder="开始时间" end-placeholder="结束时间" range-separator="至"></el-time-picker>
+        <el-time-picker is-range v-model="formAddEdit.distTime" :editable="false" value-format="HH:mm:ss" start-placeholder="开始时间" end-placeholder="结束时间" range-separator="至"></el-time-picker>
       </el-form-item>
       <el-form-item label="每日分发上限" prop="dayLimit">
         <el-col :span="20">

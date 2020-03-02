@@ -2,7 +2,7 @@
   <div class="app-container">
     <el-button type="primary" @click="manualSycn" v-if="hasPerm('manualSyncRole')">手动同步角色</el-button>
     <el-table ref="multipleTable" :data="tableData" border :stripe="stripe" style="width: 100%">
-      <el-table-column label="序号" width="50" type="index"></el-table-column>
+      <el-table-column label="编号" width="50" type="index"></el-table-column>
       <el-table-column prop="roleName" label="角色" width></el-table-column>
       <!-- <el-table-column prop="roleCode" label="角色ID" width></el-table-column>
       <el-table-column prop="updateTime" label="更新时间" width></el-table-column>-->

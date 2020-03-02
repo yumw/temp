@@ -33,7 +33,7 @@
             </el-form>
           </template>
         </el-table-column>
-        <el-table-column prop="id" label="序号"></el-table-column>
+        <el-table-column prop="id" label="编号"></el-table-column>
         <el-table-column prop="channelCode" label="渠道编号"></el-table-column>
         <el-table-column prop="channelName" label="渠道名称"></el-table-column>
         <el-table-column prop="channelState" label="渠道状态" :formatter="translate"></el-table-column>

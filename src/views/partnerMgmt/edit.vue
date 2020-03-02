@@ -225,16 +225,6 @@ export default {
         s: approveTime[2]
       };
       this.changeAdvanceCloseLongFlag(this.formAddEdit.advanceCloseLongFlag);
-      // if (this.formAddEdit.advanceCloseLongFlag === 'Y') {
-      //   this.formAddEdit.advanceCloseBeginTime = "";
-      //   this.formAddEdit.advanceCloseEndTime = "";
-
-      //   this.formAddEditRules.advanceCloseBeginTime[0].required = false;
-      //   this.formAddEditRules.advanceCloseEndTime[0].required = false;
-      // } else {
-      //   this.formAddEditRules.advanceCloseBeginTime[0].required = true;
-      //   this.formAddEditRules.advanceCloseEndTime[0].required = true;
-      // }
     } else {
 
     }
@@ -261,7 +251,7 @@ export default {
             packageCode: this.formAddEdit.packageCode,
             approveTime: `${this.approveTime.h}:${this.approveTime.m}:${this.approveTime.s}`,
             advanceFlag: this.formAddEdit.advanceFlag,
-            advanceCloseLongFlag: this.formAddEdit.advanceCloseLongFlag
+            advanceCloseLongFlag: this.formAddEdit.advanceFlag === 'Y' ? 'N' : this.formAddEdit.advanceCloseLongFlag
           };
           if (params.advanceFlag === "N") {
             let params2 = {

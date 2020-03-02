@@ -13,7 +13,7 @@
         <el-button type="primary" @click="add">新增</el-button>
       </div>
       <el-table ref="multipleTable" :data="tableData" border :stripe="stripe" style="width: 100%">
-        <el-table-column type="index" label="序号"></el-table-column>
+        <el-table-column type="index" label="编号"></el-table-column>
         <el-table-column prop="channelCode" label="商户号"></el-table-column>
         <el-table-column prop="channelName" label="服务名称"></el-table-column>
         <el-table-column prop="createTime" label="创建时间"></el-table-column>

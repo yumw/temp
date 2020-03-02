@@ -62,27 +62,28 @@ export default {
   mounted() {},
   methods: {
     search() {
-      let list = this.channel.filter(
-        item =>
-          item.channelCode.indexOf(this.searchForm) > -1 ||
-          item.channelName.indexOf(this.searchForm) > -1
-      );
-      console.log(list);
-      this.data = [
-        {
-          key: "0",
-          channelName: "全选",
-          children: list
-        }
-      ];
-      this.$nextTick(() => {
-        this.list.length &&
-          this.$refs.tree.setCheckedKeys(this.list.split(","));
-      });
+      this.$refs.tree.filter();
+      // let list = this.channel.filter(
+      //   item =>
+      //     item.channelCode.indexOf(this.searchForm) > -1 ||
+      //     item.channelName.indexOf(this.searchForm) > -1
+      // );
+      // console.log(list);
+      // this.data = [
+      //   {
+      //     key: "0",
+      //     channelName: "全选",
+      //     children: list
+      //   }
+      // ];
+      // this.$nextTick(() => {
+      //   this.list.length &&
+      //     this.$refs.tree.setCheckedKeys(this.list.split(","));
+      // });
     },
     edit(record) {
       this.$store.dispatch("getChannel"); //获取所有进件渠道
-      //this.channel = [...this.$store.state.globalData.channel];
+      this.channel.forEach(item => item.channelName = `${item.channelName} ${item.channelCode}`);
       this.data = [
         {
           key: "0",
@@ -100,26 +101,24 @@ export default {
     confirm() {
       let list = this.$refs.tree.getCheckedNodes(true);
       let values = list.map(item => item.channelCode);
-      let labels = list.map(item => item.channelCode + item.channelName);
+      let labels = list.map(item => item.channelName);
       this.$emit("confirm", values.join(), labels.join("\n"));
       this.visible = false;
     },
     renderTreeCont(h, { node, data, store }) {
       return (
         <span>
-          {data.channelCode} {data.channelName}
+          {data.channelName}
         </span>
       );
     },
     filterNode(value, data, node) {
-      return (
-        data.channelName.toLowerCase().indexOf(this.searchForm.toLowerCase()) > -1 ||
-        data.channelCode.toLowerCase().indexOf(this.searchForm.toLowerCase()) > -1
-      );
+      return data.channelName.toLowerCase().indexOf(this.searchForm.toLowerCase()) > -1;
     }
   },
   watch: {
     "$store.state.globalData.channel": function(data) {
+      this.channel.forEach(item => item.channelName = `${item.channelCode} ${item.channelName}`);
       this.data = [
         {
           key: "0",

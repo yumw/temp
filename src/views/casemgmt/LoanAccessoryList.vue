@@ -27,7 +27,7 @@
     </el-form>
     <div class="table-container">
       <el-table ref="multipleTable" :data="tableData" border :stripe="stripe" style="width: 100%">
-        <el-table-column prop="id" label="序号">
+        <el-table-column prop="id" label="编号">
         </el-table-column>
         <el-table-column prop="channelSerialNumber" label="渠道原始流水号">
         </el-table-column>

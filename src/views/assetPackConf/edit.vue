@@ -96,7 +96,7 @@ export default  {
       
       let channelName = this.formAddEdit.channelName.split(',');
       for(let i in channelCode){
-        channelName[i] = channelCode[i] + channelName[i]
+        channelName[i] = `${channelCode[i]} ${channelName[i]}`
       }
       this.formAddEdit.channelName = channelName.join('\n');
     }else{

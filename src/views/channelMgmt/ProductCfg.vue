@@ -28,7 +28,7 @@
         <el-button type="primary" @click="add">新增</el-button>
       </div>
       <el-table ref="multipleTable" :data="tableData" border :stripe="stripe" style="width: 100%">
-        <el-table-column prop="id" label="序号"></el-table-column>
+        <el-table-column prop="id" label="编号"></el-table-column>
         <el-table-column prop="channelCode" label="渠道编码"></el-table-column>
         <el-table-column prop="channelName" label="渠道名称"></el-table-column>
         <el-table-column prop="prodCode" label="产品编码"></el-table-column>

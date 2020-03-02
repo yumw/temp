@@ -118,7 +118,7 @@ export default {
       this.page = val;
       //this.query(this.rows, this.page);
     },
-    query(rows, page) {
+    query(rows, page, type) {
       this.page = page;
       const params = Object.assign(
         {
@@ -132,9 +132,12 @@ export default {
           if (res) {
             this.total = res.resData.total
             this.tableData = res.resData.list
-            this.$nextTick(() => {
-              this.defaultSelection(this.list)
-            })
+            if(type === 1){ //第一次进入
+              this.$nextTick(() => {
+                this.defaultSelection(this.list)
+              })
+            }
+            
           }
         })
         .catch(error => {
@@ -157,7 +160,7 @@ export default {
       this.visible = true;
       this.tableData = []
       //this.query(this.rows, this.page);
-      this.query();
+      this.query(this.rows,1,1);
     },
     confirm() {
       this.$emit("confirm", this.multipleTable);

@@ -34,7 +34,8 @@
         <el-button type="primary" @click="add" v-if="hasPerm('addRule')">新增</el-button>
       </div>
       <el-table ref="multipleTable" :data="tableData" border :stripe="stripe" style="width: 100%">
-        <el-table-column label="序号" width="50" type="index"></el-table-column>
+        <!-- <el-table-column label="编号" width="50" type="index"></el-table-column> -->
+        <el-table-column prop="id" label="编号" width="50"></el-table-column>
         <el-table-column prop="partnerCode" label="被分发资方编号"></el-table-column>
         <el-table-column prop="partnerName" label="被分发资方名称"></el-table-column>
         <el-table-column prop="cooperativeMode" label="合作模式">

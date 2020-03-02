@@ -67,7 +67,7 @@
         <el-table-column prop="mobilePhone" label="手机号"></el-table-column>
         <el-table-column prop="customerName" label="姓名"></el-table-column>
         <el-table-column prop="approvalStatus" label="授信状态"></el-table-column>
-        <el-table-column prop label="授信金额"></el-table-column>
+        <el-table-column prop="distApprovalAmount" label="授信金额"></el-table-column>
         <el-table-column prop="channelName" label="进件渠道">
         </el-table-column>
         <el-table-column prop="prodCode" label="产品号"></el-table-column>
@@ -82,7 +82,7 @@
         <el-table-column prop="investRatio" label="中邮出资比例">
           <template
             slot-scope="scope"
-            v-if="scope.row.investRatio && scope.row.investRatio != ''"
+            v-if="scope.row.investRatio !== undefined"
           >{{ scope.row.investRatio }}%</template>
         </el-table-column>
       </el-table>
