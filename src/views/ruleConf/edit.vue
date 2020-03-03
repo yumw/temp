@@ -54,6 +54,7 @@
 import { mapState } from 'vuex'
 import packagecodesModal from './components/packageCodesModal';
 import { addRule, updateRule } from '@/api/rule'
+import { findRemainPartner } from '@/api/partner'
 import { formatTime, timeToUnix } from '@/utils/index'
 export default  {
   name: 'ruleEdit',
@@ -86,17 +87,18 @@ export default  {
         //ruleMode: [{ required: true, message: '请选择分发模式' }],
       },
       formLabelWidth: '120',
-      partnerName:''
+      partnerName:'',
+      partner:[]
     }
   },
   computed:{
     ...mapState({
-      cooperativeMode: state => state.globalData.cooperativeMode,
-      partner: state => state.globalData.partner
+      //cooperativeMode: state => state.globalData.cooperativeMode,
+      //partner: state => state.globalData.partner
     })
   },
   created(){
-    this.$store.dispatch('getPartner') //获取所有资方
+    //this.$store.dispatch('getPartner') //获取所有资方
   },
   mounted(e){
     console.log(111,this.$route.params.record)
@@ -116,9 +118,21 @@ export default  {
       //   outputRate: '',
       // }
     }
+    this.getPartner();
     
   },
   methods:{
+    async getPartner(){
+      let res = await findRemainPartner();
+      if(res.resData){
+        this.partner = res.resData;
+        if(this.type === 1){
+          let { partnerCode, partnerName } = this.formAddEdit;
+          this.partner.push({partnerCode, partnerName})
+          this.partnerCodeChange(partnerCode);
+        }
+      }
+    },
     chooPackagecodes(){
       this.$refs.packagecodesModal.edit();
     },
@@ -220,9 +234,7 @@ export default  {
       }
     },
     partnerCodeChange(e){
-      console.log(e)
       let filterObj = this.partner.filter(item => item.partnerCode === e);
-      console.log(filterObj)
       this.partnerName = filterObj[0].partnerName
     }
   }

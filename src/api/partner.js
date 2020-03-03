@@ -39,3 +39,11 @@ export function updatePartnerIsReportCredit(data) {
     data
   })
 }
+
+export function findRemainPartner(data) {
+  return request({
+    url: '/bg/partner/findRemainPartner',
+    method: 'get',
+    data
+  })
+}

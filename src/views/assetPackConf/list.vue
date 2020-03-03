@@ -50,13 +50,13 @@
         <el-table-column prop="caseLabel" label="资产标签"></el-table-column>
         <el-table-column prop="channelName" label="来源渠道"></el-table-column>
         <el-table-column prop="prodCode" label="产品号"></el-table-column>
-        <el-table-column label="输出比例">
+        <el-table-column label="输出比例" width="90">
           <template
             slot-scope="scope"
             v-if="scope.row.ouputRate && scope.row.ouputRate != ''"
           >{{ scope.row.ouputRate }}%</template>
         </el-table-column>
-        <el-table-column prop="paymentType" label="操作" fixed="right" width="160">
+        <el-table-column prop="paymentType" label="操作" fixed="right" width="80">
           <template slot-scope="scope">
             <el-button
               @click="edit(scope.row)"

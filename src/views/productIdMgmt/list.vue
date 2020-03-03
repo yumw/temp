@@ -8,7 +8,7 @@
         <el-table-column label="序号" width="50" type="index"></el-table-column>
         <el-table-column prop="prodCode" label="产品号"></el-table-column>
         <el-table-column prop="prodName" label="名称"></el-table-column>
-        <el-table-column prop="paymentType" label="操作" fixed="right" width="160">
+        <el-table-column prop="paymentType" label="操作" fixed="right" width="80">
           <template slot-scope="scope">
             <el-button
               @click="edit(scope.row)"
@@ -16,12 +16,12 @@
               type="warning"
               v-if="hasPerm('addProduct')"
             >编辑</el-button>
-            <el-button
+            <!-- <el-button
               @click="del(scope.row)"
               size="small"
               type="danger"
               v-if="hasPerm('deleteProduct')"
-            >删除</el-button>
+            >删除</el-button> -->
           </template>
         </el-table-column>
       </el-table>

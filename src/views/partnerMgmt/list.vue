@@ -56,7 +56,7 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="paymentType" label="操作" fixed="right" width="160">
+        <el-table-column prop="paymentType" label="操作" fixed="right" width="80">
           <template slot-scope="scope">
             <el-button
               @click="edit(scope.row)"

@@ -310,6 +310,7 @@ export default {
               type: "success",
               message: "同步成功！"
             });
+            this.query(this.rows, 1);
           }
         })
         .catch(error => {
