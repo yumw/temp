@@ -308,7 +308,64 @@ const routerMap = {
     name: 'permissionmgmt ',
     component: () => import('@/views/permissionsmgmt/permissionsmgmt'),
     meta: { title: '权限管理', icon: 'lock-open' }
-  }
+  },
+  'partnerButtConf':{ //资方配置
+    path: 'partnerButtConf',
+    name: 'partnerButtConf ',
+    component: () => import('@/views/partnerButtConf/list'),
+  },
+  'requestProcessMgmt':{ //请求处理
+    path: 'requestProcessMgmt',
+    name: 'requestProcessMgmt ',
+    component: () => import('@/views/requestProcessMgmt/list')
+  },
+  'annexQuery':{ //附件查询
+    path: 'annexQuery',
+    name: 'annexQuery ',
+    component: () => import('@/views/annexQuery/list')
+  }, 
+  'requestReceiveMgmt':{ //请求接收
+    path: 'requestReceiveMgmt',
+    name: 'requestReceiveMgmt ',
+    component: () => import('@/views/requestReceiveMgmt/list')
+  },
+  'exceptionMgmt':{ //异常管理
+    path: 'exceptionMgmt',
+    name: 'exceptionMgmt ',
+    component: () => import('@/views/exceptionMgmt/list')
+  },
+  'withDrawQuery':{ //提现查询
+    path: 'withDrawQuery',
+    name: 'withDrawQuery ',
+    component: () => import('@/views/withDrawQuery/list')
+  },
+  'partnerRuleConf':[{ //资方规则配置
+    path: 'partnerRuleConf',
+    name: 'partnerRuleConf ',
+    component: () => import('@/views/partnerRuleConf/list')
+  },{ //资方规则配置新增
+    path: 'partnerRuleConf/add',
+    name: 'partnerRuleConfAdd',
+    hidden: true,
+    component: () => import('@/views/partnerRuleConf/edit'),
+    meta: { title: '资方规则配置新增'}
+  },{ //资方规则配置编辑
+    path: 'partnerRuleConf/edit',
+    name: 'partnerRuleConfEdit',
+    hidden: true,
+    component: () => import('@/views/partnerRuleConf/edit'),
+    meta: { title: '资方规则配置编辑'}
+  }],
+  'reconciliationFileQuery':{ //对账文件查询
+    path: 'reconciliationFileQuery',
+    name: 'reconciliationFileQuery ',
+    component: () => import('@/views/reconciliationFileQuery/list')
+  },
+  'kvMgmt':{ //键值对管理
+    path: 'kvMgmt',
+    name: 'kvMgmt ',
+    component: () => import('@/views/kvMgmt/list')
+  },
 }
 
 export function getRoute(data){

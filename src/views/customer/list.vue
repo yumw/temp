@@ -51,7 +51,7 @@
       </el-form-item>
 
       <el-form-item>
-        <el-button type="primary" @click="query(rows,1)">查询</el-button>
+        <el-button type="primary" @click="query(rows,1)" v-if="hasPerm('findCustomer')">查询</el-button>
       </el-form-item>
     </el-form>
     <div class="table-container">
@@ -96,10 +96,6 @@
         layout="total,sizes, prev, pager, next, jumper"
         :total="total"
       >
-        <div class="shot-default">
-          <el-button>首页</el-button>
-          <el-button>尾页</el-button>
-        </div>
       </el-pagination>
     </div>
   </div>

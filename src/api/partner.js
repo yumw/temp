@@ -47,3 +47,11 @@ export function findRemainPartner(data) {
     data
   })
 }
+
+export function updatePartnerSelective(data) {
+  return request({
+    url: '/bg/partner/updatePartnerSelective',
+    method: 'post',
+    data
+  })
+}

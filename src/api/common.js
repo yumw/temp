@@ -41,6 +41,23 @@ export function findAllPartner(data) {
   })
 }
 
+//查询所有服务名
+export function findAllService(data) {
+  return request({
+    url: '/bg/service/findAllService',
+    method: 'get',
+    data
+  })
+}
+
+//查询所有文件类型
+export function findAllFileType(data) {
+  return request({
+    url: '/bg/fileType/findAllFileType',
+    method: 'get',
+    data
+  })
+}
 export function findUserName() {
   return request({
     url: '/bg/user/findUserName',
