@@ -39,18 +39,18 @@
     </el-form>
     <div class="table-container">
       <el-table ref="multipleTable" :data="tableData" border :stripe="stripe" style="width: 100%">
-        <el-table-column prop="id" label="id"></el-table-column>
-        <el-table-column prop="businessCode" label="业务流水号"></el-table-column>
-        <el-table-column prop="partnerCode" label="资方编号"></el-table-column>
-        <el-table-column prop="serviceCode" label="服务编码"></el-table-column>
-        <el-table-column prop="serviceName" label="服务名称"></el-table-column>
-        <el-table-column prop="requestTime" label="请求时间">
+        <el-table-column prop="id" label="id" min-width="60"></el-table-column>
+        <el-table-column prop="businessCode" label="业务流水号" min-width="120"></el-table-column>
+        <el-table-column prop="partnerCode" label="资方编号" min-width="120"></el-table-column>
+        <el-table-column prop="serviceCode" label="服务编码" min-width="120"></el-table-column>
+        <el-table-column prop="serviceName" label="服务名称" min-width="120"></el-table-column>
+        <el-table-column prop="requestTime" label="请求时间" min-width="100">
           <template slot-scope="scope">
             {{ formatTime(scope.row.requestTime,'yyyy-MM-dd HH:mm:ss') }}
           </template>
         </el-table-column>
         <el-table-column prop="requestType" label="请求类型"></el-table-column>
-        <el-table-column prop="responseTime" label="响应时间">
+        <el-table-column prop="responseTime" label="响应时间" min-width="100">
           <template slot-scope="scope">
             {{ formatTime(scope.row.responseTime,'yyyy-MM-dd HH:mm:ss') }}
           </template>
@@ -61,7 +61,7 @@
           </template>
         </el-table-column>	
         <el-table-column prop="retryCount" label="重试次数"></el-table-column>
-        <el-table-column prop="createTime" label="创建时间">
+        <el-table-column prop="createTime" label="创建时间" min-width="100">
           <template slot-scope="scope">
             {{ formatTime(scope.row.createTime,'yyyy-MM-dd HH:mm:ss') }}
           </template>

@@ -47,6 +47,29 @@ let fileOperateState = (value) => {
   let result = fileOperateState.filter( item => item.value == value)
   return result.length ? result[0].label : ''
 }
+//分发提现状态
+let distLoanStatus = (value) => {
+  let distLoanStatus = {
+    '130000': '放款处理中',          
+    '130001': '放款成功',           
+    '130002': '放款失败',          
+    '130004': '提现流水号与全局流水号匹配异常'
+  }
+  let result = distLoanStatus[value];
+  return result ? result : ''
+}
+//分发用信状态
+let distApprovalStatus = (value) => {
+  let distApprovalStatus = {
+    '120000': '用信中',         
+    '120001': '用信成功',         
+    '120002': '用信失败可重新发起提现',  
+    '120003': '用信失败不可重新发起提现', 
+    '120004': '提现流水号与案件号匹配异常'
+  }
+  let result = distApprovalStatus[value];
+  return result ? result : ''
+}
 
 export {
   cooperativeMode,
@@ -56,5 +79,7 @@ export {
   processState,
   exceptionState,
   fileType,
-  fileOperateState
+  fileOperateState,
+  distLoanStatus,
+  distApprovalStatus
 }

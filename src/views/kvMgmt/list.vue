@@ -6,7 +6,7 @@
           <div class="table-toolbar">
             <el-button type="primary" @click="add">新增</el-button>
           </div>
-          <el-table ref="multipleTable" :data="tableData.slice((page-1)*rows,page*rows)" border :stripe="stripe" style="width: 100%">
+          <el-table ref="singleTable" :data="tableData.slice((page-1)*rows,page*rows)" border :stripe="stripe" highlight-current-row style="width: 100%">
             <el-table-column prop="id" label="id" width="50"></el-table-column>
             <el-table-column prop="enumTypeName" label="枚举类型"></el-table-column>
             <el-table-column prop="enumTypeDesc" label="描述"></el-table-column>
@@ -94,7 +94,7 @@ export default {
       rows: 10,
       page: 1,
       tableChildData: [],
-      enumTypeName:'',
+      rowData:'',
       dirty:false
     };
   },
@@ -139,6 +139,9 @@ export default {
     },
     confirm(data) {
       this.query(this.rows, 1);
+      this.tableChildData = [];
+      this.dirty = false;
+      this.$refs.singleTable.setCurrentRow();
     },
     async itemDel(params) {
       let res = await deleteType(params)
@@ -168,21 +171,24 @@ export default {
       if(res.resData){
         this.tableChildData = res.resData;
         this.dirty = true;
-        this.enumTypeName = row.enumTypeName;
+        this.rowData = row;
+        this.$refs.singleTable.setCurrentRow(row);
       }
     },
     addChild() {
-      this.$refs.enumModal.edit({enumTypeName:this.enumTypeName},0);
+      this.rowData.enumKey = this.rowData.name;
+      this.rowData.enumValue = this.rowData.value;
+      this.$refs.enumModal.edit(this.rowData,0);
     },
     editChild(row) {
       row.enumKey = row.name;
       row.enumValue = row.value;
-      this.$refs.enumModal.edit(Object.assign({enumTypeName:this.enumTypeName},row),1);
+      this.$refs.enumModal.edit(row,1);
     },
     async itemChildDel(params) {
       let res = await deleteEnum(params)
       if (res) {
-        this.detail({enumTypeName:this.enumTypeName})
+        this.detail(this.rowData)
         this.$message({
           type: "success",
           message: "删除成功！"
@@ -200,7 +206,7 @@ export default {
       });
     },
     childConfirm(res){
-      this.detail({enumTypeName:this.enumTypeName})
+      this.detail(this.rowData)
     }
   }
 };

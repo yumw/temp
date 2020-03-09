@@ -2,7 +2,7 @@ import { findAllChannel, findAllProduct, findAllLabel,findAllPartner, findAllSer
 import { getEnumByType } from '@/api/configEnum'
 import { resolve } from 'url';
 const approvalStatus = [
-  {value: '12000', label: '用信中'},
+  {value: '120000', label: '用信中'},
   {value: '120001', label: '用信成功'}, 
   {value: '120002', label: '用信失败可重新发起提现'}, 
   {value: '120003', label: '用信失败不可重新发起提现'}
@@ -10,7 +10,7 @@ const approvalStatus = [
 const loanStatus = [
   {value: '130001', label: '放款成功'}, 
   {value: '130002', label: '放款失败'}, 
-  {value: '13000', label: '提现流水号与全局流水号匹配异常'}
+  {value: '130000', label: '提现流水号与全局流水号匹配异常'}
 ]
 const processState = [
   {value: '0', label: '未请求'},

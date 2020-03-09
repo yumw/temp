@@ -67,12 +67,12 @@
     </el-form>
     <div class="table-container">
       <el-table ref="multipleTable" :data="tableData" border :stripe="stripe" style="width: 100%">
-        <el-table-column prop="id" label="id"></el-table-column>
-        <el-table-column prop="loanNo" label="提现流水号"></el-table-column>
-        <el-table-column prop="advanceApplyNo" label="用信请求流水号"></el-table-column>
-        <el-table-column prop="advanceConfirmNo" label="支付放款请求流水号"></el-table-column>
-        <el-table-column prop="caseNo" label="案件号"></el-table-column>
-        <el-table-column prop="partnerCode" label="资方编号"></el-table-column>
+        <el-table-column prop="id" label="id" min-width="55"></el-table-column>
+        <el-table-column prop="loanNo" label="提现流水号" min-width="100"></el-table-column>
+        <el-table-column prop="advanceApplyNo" label="用信请求流水号" min-width="150"></el-table-column>
+        <el-table-column prop="advanceConfirmNo" label="支付放款请求流水号" min-width="150"></el-table-column>
+        <el-table-column prop="caseNo" label="案件号" min-width="120"></el-table-column>
+        <el-table-column prop="partnerCode" label="资方编号" min-width="120"></el-table-column>
         <el-table-column prop="approvalStatus" label="用信状态">
           <template
             slot-scope="scope"
@@ -101,15 +101,23 @@
         <el-table-column prop="isReportCredit" label="是否资方报送征信"></el-table-column>
         <el-table-column prop="isUrgeRepay" label="是否中邮催收"></el-table-column>
         <el-table-column prop="loanAccount" label="贷款账号"></el-table-column>
-        <el-table-column prop="advanceApplyTime" label="放款申请时间"></el-table-column>
-        <el-table-column prop="distApplyTime" label="用信分发时间"></el-table-column>
-        <el-table-column prop="distApplyResultTime" label="分发用信结果时间"></el-table-column>
-        <el-table-column prop="distAdvaneTime" label="放款分发时间"></el-table-column>
-        <el-table-column prop="distAdvanceResultTime" label="分发放款结果时间"></el-table-column>
-        <el-table-column prop="distLoanStatus" label="分发提现状态"></el-table-column>
-        <el-table-column prop="distApprovalStatus" label="分发用信状态"></el-table-column>
+        <el-table-column prop="advanceApplyTime" label="放款申请时间" min-width="100"></el-table-column>
+        <el-table-column prop="distApplyTime" label="用信分发时间" min-width="100"></el-table-column>
+        <el-table-column prop="distApplyResultTime" label="分发用信结果时间" min-width="100"></el-table-column>
+        <el-table-column prop="distAdvaneTime" label="放款分发时间" min-width="100"></el-table-column>
+        <el-table-column prop="distAdvanceResultTime" label="分发放款结果时间" min-width="100"></el-table-column>
+        <el-table-column prop="distLoanStatus" label="分发提现状态">
+          <template
+            slot-scope="scope"
+          >{{ scope.row.distLoanStatus | distLoanStatus }}</template>
+        </el-table-column>
+        <el-table-column prop="distApprovalStatus" label="分发用信状态">
+          <template
+            slot-scope="scope"
+          >{{ scope.row.distApprovalStatus | distApprovalStatus }}</template>
+        </el-table-column>
         <el-table-column prop="distFlag" label="分发标识"></el-table-column>
-        <el-table-column prop="createTime" label="创建时间">
+        <el-table-column prop="createTime" label="创建时间" width="100">
           <template slot-scope="scope">
             {{ formatTime(scope.row.createTime,'yyyy-MM-dd HH:mm:ss') }}
           </template>

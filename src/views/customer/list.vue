@@ -56,15 +56,15 @@
     </el-form>
     <div class="table-container">
       <el-table ref="multipleTable" :data="tableData" border :stripe="stripe" style="width: 100%">
-        <el-table-column prop="distTime" label="分发日期" min-width="100px">
+        <el-table-column prop="distTime" label="分发日期" min-width="100">
           <template
             slot-scope="scope"
             v-if="scope.row.distTime"
           >{{ formatTime(new Date(scope.row.distTime).getTime(),'yyyy-MM-dd HH:mm:ss') }}</template>
         </el-table-column>
-        <el-table-column prop="caseNo" label="审批案件号"></el-table-column>
-        <el-table-column prop="idNo" label="身份证号"></el-table-column>
-        <el-table-column prop="mobilePhone" label="手机号"></el-table-column>
+        <el-table-column prop="caseNo" label="审批案件号" min-width="160"></el-table-column>
+        <el-table-column prop="idNo" label="身份证号" min-width="170"></el-table-column>
+        <el-table-column prop="mobilePhone" label="手机号" min-width="110"></el-table-column>
         <el-table-column prop="customerName" label="姓名"></el-table-column>
         <el-table-column prop="approvalStatus" label="授信状态"></el-table-column>
         <el-table-column prop="distApprovalAmount" label="授信金额"></el-table-column>

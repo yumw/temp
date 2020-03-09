@@ -38,17 +38,17 @@
     </el-form>
     <div class="table-container">
       <el-table ref="multipleTable" :data="tableData" border :stripe="stripe" style="width: 100%">
-        <el-table-column prop="id" label="id"></el-table-column>
+        <el-table-column prop="id" label="id" min-width="60"></el-table-column>
         <el-table-column prop="partnerCode" label="资方编号"></el-table-column>
-        <el-table-column prop="accountingDate" label="对账日期"></el-table-column>
-        <el-table-column prop="fileNameInput" label="文件名（处理前）"></el-table-column>
-        <el-table-column prop="fileNameOutput" label="文件名（处理后）"></el-table-column>
-        <el-table-column prop="fileOperateStartTime" label="处理开始时间">
+        <el-table-column prop="accountingDate" label="对账日期" min-width="100"></el-table-column>
+        <el-table-column prop="fileNameInput" label="文件名（处理前）" min-width="200"></el-table-column>
+        <el-table-column prop="fileNameOutput" label="文件名（处理后）" min-width="200"></el-table-column>
+        <el-table-column prop="fileOperateStartTime" label="处理开始时间" min-width="100">
           <template slot-scope="scope">
             {{ formatTime(scope.row.fileOperateStartTime,'yyyy-MM-dd HH:mm:ss') }}
           </template>
         </el-table-column>
-        <el-table-column prop="fileOperateEndTime" label="处理结束时间">
+        <el-table-column prop="fileOperateEndTime" label="处理结束时间" min-width="100">
           <template slot-scope="scope">
             {{ formatTime(scope.row.fileOperateEndTime,'yyyy-MM-dd HH:mm:ss') }}
           </template>
@@ -59,7 +59,7 @@
           </template>
         </el-table-column>
         <el-table-column prop="fileVersion" label="文件版本"></el-table-column>
-        <el-table-column prop="createTime" label="创建时间">
+        <el-table-column prop="createTime" label="创建时间" min-width="100">
           <template slot-scope="scope">
             {{ formatTime(scope.row.createTime,'yyyy-MM-dd HH:mm:ss') }}
           </template>
@@ -69,8 +69,8 @@
             {{ scope.row.fileType | fileType }}
           </template>
         </el-table-column>
-        <el-table-column prop="fileNameInputUrl" label="文件地址（处理前）"></el-table-column>
-        <el-table-column prop="fileNameOutputUrl" label="文件地址（处理后）"></el-table-column>
+        <el-table-column prop="fileNameInputUrl" label="文件地址（处理前）" min-width="200"></el-table-column>
+        <el-table-column prop="fileNameOutputUrl" label="文件地址（处理后）" min-width="200"></el-table-column>
         <el-table-column prop="paymentType" label="操作" fixed="right" width="160">
           <template slot-scope="scope">
             <el-button

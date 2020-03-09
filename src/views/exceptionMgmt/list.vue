@@ -39,12 +39,12 @@
     </el-form>
     <div class="table-container">
       <el-table ref="multipleTable" :data="tableData" border :stripe="stripe" style="width: 100%">
-        <el-table-column prop="id" label="id"></el-table-column>
-        <el-table-column prop="businessCode" label="业务流水号"></el-table-column>
-        <el-table-column prop="partnerCode" label="资方编号"></el-table-column>
-        <el-table-column prop="serviceCode" label="服务编码"></el-table-column>
-        <el-table-column prop="serviceName" label="服务名称"></el-table-column>
-        <el-table-column prop="exceptionTime" label="异常时间">
+        <el-table-column prop="id" label="id" min-width="60"></el-table-column>
+        <el-table-column prop="businessCode" label="业务流水号" min-width="160"></el-table-column>
+        <el-table-column prop="partnerCode" label="资方编号" min-width="80"></el-table-column>
+        <el-table-column prop="serviceCode" label="服务编码" min-width="120"></el-table-column>
+        <el-table-column prop="serviceName" label="服务名称" min-width="120"></el-table-column>
+        <el-table-column prop="exceptionTime" label="异常时间" min-width="100">
           <template slot-scope="scope">
             {{ formatTime(scope.row.exceptionTime,'yyyy-MM-dd HH:mm:ss') }}
           </template>
