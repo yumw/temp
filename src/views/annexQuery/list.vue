@@ -13,26 +13,26 @@
         <el-table-column prop="id" label="id"></el-table-column>
         <el-table-column prop="caseNo" label="案件号"></el-table-column>
         <el-table-column prop="fileType" label="附件类型"></el-table-column>
-        <el-table-column prop="fileName" label="附件文件名"></el-table-column>
-        <el-table-column prop="fileUrl" label="文件地址">
+        <el-table-column prop="fileName" label="附件名称">
           <template slot-scope="scope">
-            <el-image :src="scope.row.fileUrl" fit="cover" :preview-src-list="[scope.row.fileUrl]" alt="" style="height:60px;width:60px;"></el-image>
+            {{ scope.row.fileName }}{{ scope.row.fileName ? '.' : ''}}{{ scope.row.fileExtension }}
           </template>
         </el-table-column>
+        <el-table-column prop="fileUuid" label="下载码"></el-table-column>
         <el-table-column prop="paymentType" label="操作" fixed="right" width="160">
           <template slot-scope="scope">
-            <el-button
-              @click="download(scope.row,1)"
-              size="small"
-              type="warning"
-              v-if="hasPerm('previewLoanApplyFile')"
-            >预览</el-button>
             <el-button
               @click="download(scope.row)"
               size="small"
               type="primary"
               v-if="hasPerm('downloadLoanApplyFile')"
             >下载</el-button>
+            <el-button
+              @click="download(scope.row,1)"
+              size="small"
+              type="warning"
+              v-if="scope.row.fileExtension && imgExt.indexOf(scope.row.fileExtension.toLocaleLowerCase()) > -1 && hasPerm('previewLoanApplyFile')"
+            >预览</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -40,22 +40,34 @@
         class="mt10"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-        :page-sizes="[10, 20, 30, 40]"
+        :page-sizes="[20, 50, 100]"
         :page-size="rows"
         :current-page.sync="page"
         layout="total,sizes, prev, pager, next, jumper"
         :total="total"
+        v-if="total > 20"
       >
       </el-pagination>
     </div>
+    <el-image-viewer 
+      v-if="showViewer"
+      :on-close="closeViewer"
+      :url-list="urlList"
+    ></el-image-viewer>
   </div>
 </template>
 <script>
 import { findLoanApplyFile, downloadLoanApplyFile, previewLoanApplyFile } from "@/api/loanApplyFile";
 import { formatTime, timeToUnix } from "@/utils/index";
+import axios from 'axios'
+import { downloadFile, previewFile } from '@/utils/download'
+import ElImageViewer from 'element-ui/packages/image/src/image-viewer'
 
 export default {
-  name: "requestProcess",
+  name: "annexOuery",
+  components: {
+    ElImageViewer
+  },
   data() {
     return {
       form: {
@@ -64,13 +76,16 @@ export default {
       stripe: true,
       tableData: [],
       total: 0,
-      rows: 10,
-      page: 1
+      rows: 20,
+      page: 1,
+      showViewer:false,
+      urlList:[],
+      imgExt:['jpg','png','jpeg']
     };
   },
   async created() {
-    let res = await this.$store.dispatch("getFileType").catch(err => {console.log(err)}); //获取所有进件渠道
-    console.log(res)
+    //let res = await this.$store.dispatch("getFileType").catch(err => {console.log(err)}); //获取所有进件渠道
+    //console.log(res)
     this.query(this.rows, this.page);
   },
   methods: {
@@ -99,16 +114,31 @@ export default {
       this.query(this.rows, this.page);
     },
     async download(record,type) {
-      //window.location.href = record.fileUrl;
-      let params = {
+      const params = {
         id: record.id
       }
-      if( type === 1){
-        let res = await previewLoanApplyFile(params)
-      }else {
-        let res = await downloadLoanApplyFile(params)
-      }
-      
+      axios({
+        method: 'post',
+        baseURL: process.env.BASE_API,
+        url: '/bg/loanApplyFile/downloadLoanApplyFile',
+        data: params,
+        responseType: 'blob'
+      })
+      .then(response => {
+        let fileName = record.fileName ?  `${record.fileName}.${record.fileExtension}` : 'default.jpg'
+        if(type === 1){
+          let url = previewFile(response.data, fileName);
+          this.urlList = [url];
+          this.showViewer = true;
+        }else{
+          downloadFile(response.data, fileName)
+        }  
+      }).catch(error => {
+        console.log(error)
+      })
+    },
+    closeViewer() {
+      this.showViewer = false;
     }
   }
 };

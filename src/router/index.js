@@ -314,21 +314,33 @@ const routerMap = {
     name: 'partnerButtConf ',
     component: () => import('@/views/partnerButtConf/list'),
   },
-  'requestProcessMgmt':{ //请求处理
+  'requestProcessMgmt':[{ //请求处理
     path: 'requestProcessMgmt',
     name: 'requestProcessMgmt ',
     component: () => import('@/views/requestProcessMgmt/list')
-  },
+  },{ 
+    path: 'requestProcessMgmt/detail/:id?',
+    name: 'requestProcessMgmtDetail ',
+    component: () => import('@/views/requestProcessMgmt/detail'),
+    hidden: true,
+    meta: { title: '请求处理详情'}
+  }],
   'annexQuery':{ //附件查询
     path: 'annexQuery',
     name: 'annexQuery ',
     component: () => import('@/views/annexQuery/list')
   }, 
-  'requestReceiveMgmt':{ //请求接收
+  'requestReceiveMgmt':[{ //请求接收
     path: 'requestReceiveMgmt',
     name: 'requestReceiveMgmt ',
     component: () => import('@/views/requestReceiveMgmt/list')
-  },
+  },{
+    path: 'requestReceiveMgmt/detail/:id?',
+    name: 'requestReceiveMgmtDetail ',
+    component: () => import('@/views/requestReceiveMgmt/detail'),
+    hidden: true,
+    meta: { title: '请求接收详情'}
+  }],
   'exceptionMgmt':{ //异常管理
     path: 'exceptionMgmt',
     name: 'exceptionMgmt ',

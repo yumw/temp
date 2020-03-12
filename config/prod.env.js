@@ -2,6 +2,6 @@
 module.exports = {
   NODE_ENV: '"production"',
   env_config: '"prod"',
-  BASE_API: '"/api/services"',
+  BASE_API: '"/api"',
   outputDirname: '../facadeAdmin'
 }

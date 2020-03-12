@@ -12,3 +12,12 @@ export function downloadFile(data, fileName) {
   link.click()
   window.URL.revokeObjectURL(link.href)
 }
+//预览图片
+export function previewFile(data, fileName){
+  if (!data) {
+    return
+  }
+  let blob = new Blob([data])
+  let url = window.URL.createObjectURL(blob)
+  return url;
+}

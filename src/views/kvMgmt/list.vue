@@ -34,10 +34,11 @@
             class="mt10"
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
-            :page-sizes="[10, 20, 30, 40]"
+            :page-sizes="[20, 50, 100]"
             :page-size="rows"
             layout="total,sizes, prev, pager, next, jumper"
             :total="tableData.length"
+            v-if="tableData.length > 20"
           ></el-pagination>
         </el-col>
         <el-col :span="12" v-if="dirty">
@@ -91,7 +92,7 @@ export default {
       stripe: true,
       tableData: [],
       total: 0,
-      rows: 10,
+      rows: 20,
       page: 1,
       tableChildData: [],
       rowData:'',

@@ -22,7 +22,7 @@
           placeholder="开始时间"
           v-model="form.startTime"
           value-format="yyyy-MM-dd HH:mm:ss"
-        ></el-date-picker>`
+        ></el-date-picker>
       </el-form-item>
       <el-form-item label="结束时间">
         <el-date-picker
@@ -70,28 +70,29 @@
         class="mt10"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-        :page-sizes="[10, 20, 30, 40]"
+        :page-sizes="[20, 50, 100]"
         :page-size="rows"
         :current-page.sync="page"
         layout="total,sizes, prev, pager, next, jumper"
         :total="total"
+        v-if="total > 20"
       >
       </el-pagination>
     </div>
-    <detail-modal ref="detailModal"></detail-modal>
+    <!-- <detail-modal ref="detailModal"></detail-modal> -->
   </div>
 </template>
 <script>
 import { mapState } from 'vuex'
 import { findRequestReceive } from "@/api/requestReceive";
 import { formatTime, timeToUnix } from "@/utils/index";
-import detailModal from "./components/detailModal";
+// import detailModal from "./components/detailModal";
 
 export default {
   name: "requestReceiveMgmt",
-  components: {
-    detailModal
-  },
+  // components: {
+  //   detailModal
+  // },
   data() {
     return {
       form: {
@@ -103,7 +104,7 @@ export default {
       stripe: true,
       tableData: [],
       total: 0,
-      rows: 10,
+      rows: 20,
       page: 1,
     };
   },
@@ -151,7 +152,8 @@ export default {
       this.query(this.rows, this.page);
     },
     detail(record) {
-      this.$refs.detailModal.edit(record);
+      //this.$refs.detailModal.edit(record);
+      this.$router.push({ path: `requestReceiveMgmt/detail/${record.id}`});
     }
   }
 };

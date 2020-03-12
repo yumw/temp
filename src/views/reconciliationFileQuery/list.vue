@@ -41,9 +41,9 @@
         <el-table-column prop="id" label="id" min-width="60"></el-table-column>
         <el-table-column prop="partnerCode" label="资方编号"></el-table-column>
         <el-table-column prop="accountingDate" label="对账日期" min-width="100"></el-table-column>
-        <el-table-column prop="fileNameInput" label="文件名（处理前）" min-width="200"></el-table-column>
-        <el-table-column prop="fileNameOutput" label="文件名（处理后）" min-width="200"></el-table-column>
-        <el-table-column prop="fileOperateStartTime" label="处理开始时间" min-width="100">
+        <!-- <el-table-column prop="fileNameInput" label="文件名（处理前）" min-width="200"></el-table-column> -->
+        <el-table-column prop="fileNameOutput" label="文件名" min-width="200"></el-table-column>
+        <!-- <el-table-column prop="fileOperateStartTime" label="处理开始时间" min-width="100">
           <template slot-scope="scope">
             {{ formatTime(scope.row.fileOperateStartTime,'yyyy-MM-dd HH:mm:ss') }}
           </template>
@@ -63,14 +63,14 @@
           <template slot-scope="scope">
             {{ formatTime(scope.row.createTime,'yyyy-MM-dd HH:mm:ss') }}
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column prop="fileType" label="文件类型">
           <template slot-scope="scope">
             {{ scope.row.fileType | fileType }}
           </template>
         </el-table-column>
-        <el-table-column prop="fileNameInputUrl" label="文件地址（处理前）" min-width="200"></el-table-column>
-        <el-table-column prop="fileNameOutputUrl" label="文件地址（处理后）" min-width="200"></el-table-column>
+        <!-- <el-table-column prop="fileNameInputUrl" label="文件地址（处理前）" min-width="200"></el-table-column>
+        <el-table-column prop="fileNameOutputUrl" label="文件地址（处理后）" min-width="200"></el-table-column> -->
         <el-table-column prop="paymentType" label="操作" fixed="right" width="160">
           <template slot-scope="scope">
             <el-button
@@ -92,11 +92,12 @@
         class="mt10"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-        :page-sizes="[10, 20, 30, 40]"
+        :page-sizes="[20, 50, 100]"
         :page-size="rows"
         :current-page.sync="page"
         layout="total,sizes, prev, pager, next, jumper"
         :total="total"
+        v-if="total > 20"
       >
       </el-pagination>
     </div>
@@ -108,6 +109,8 @@ import { mapState } from 'vuex'
 import { lists, download, retry } from "@/api/file";
 import { formatTime, timeToUnix } from "@/utils/index";
 // import detailModal from "./components/detailModal";
+import axios from 'axios'
+import { downloadFile } from '@/utils/download'
 
 export default {
   name: "reconciliation",
@@ -125,7 +128,7 @@ export default {
       stripe: true,
       tableData: [],
       total: 0,
-      rows: 10,
+      rows: 20,
       page: 1,
     };
   },
@@ -188,14 +191,22 @@ export default {
       }
     },
     async download(record,type) {
-      let params = {
+      const params = {
         id: record.id
       }
-      let res = await download(params)
+      axios({
+        method: 'post',
+        baseURL: process.env.BASE_API,
+        url: '/bg/file/download',
+        data: params,
+        responseType: 'blob'
+      })
+      .then(response => {
+        downloadFile(response.data, record.fileNameOutput)
+      }).catch(error => {
+        console.log(error)
+      })
     }
   }
 };
 </script>
-
-<style rel="stylesheet/scss" lang="scss" scoped>
-</style>

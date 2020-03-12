@@ -12,12 +12,11 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-       //target: 'http://11.215.108.23:8080',
        target: 'http://10.192.172.86:8080', //jianhong
        // target: 'http://10.192.172.9:8080', //weibang
        //target: 'http://10.192.173.13:8080', //xiangyuan
-        // target: 'http://11.113.0.92:8181', // 接口的域名 sit
-        // target: 'http://11.114.0.74:8181', // 接口的域名 uat
+        // target: 'http://11.215.108.23:8080', // 接口的域名 sit
+        // target: 'http://11.215.108.53:8080', // 接口的域名 uat
         // target: 'http://10.126.196.222:8181', // 接口的域名 pre
         // secure: false,  // 如果是https接口，需要配置这个参数
         // changeOrigin: true, // 如果接口跨域，需要进行这个参数配置

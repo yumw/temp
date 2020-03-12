@@ -5,7 +5,6 @@
         <el-input v-model="form.businessCode"></el-input>
       </el-form-item>
       <el-form-item label="服务名">
-        <!-- <el-input v-model="form.serviceCode"></el-input> -->
         <el-select v-model="form.serviceCode" filterable>
           <el-option key label="全部" value></el-option>
           <el-option
@@ -16,13 +15,35 @@
           ></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="开始时间">
+      <el-form-item label="处理状态">
+        <el-select v-model="form.processState" filterable>
+          <el-option key label="全部" value></el-option>
+          <el-option
+            v-for="item in processState"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          ></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="创建时间">
+        <el-date-picker
+          type="datetimerange"
+          v-model="form.time"
+          :editable="false"
+          start-placeholder="开始时间"
+          end-placeholder="结束时间"
+          range-separator="至"
+          value-format="yyyy-MM-dd HH:mm:ss"
+        ></el-date-picker>
+      </el-form-item>
+      <!-- <el-form-item label="开始时间">
         <el-date-picker
           type="datetime"
           placeholder="开始时间"
           v-model="form.startTime"
           value-format="yyyy-MM-dd HH:mm:ss"
-        ></el-date-picker>`
+        ></el-date-picker>
       </el-form-item>
       <el-form-item label="结束时间">
         <el-date-picker
@@ -31,7 +52,7 @@
           v-model="form.endTime"
           value-format="yyyy-MM-dd HH:mm:ss"
         ></el-date-picker>
-      </el-form-item>
+      </el-form-item> -->
 
       <el-form-item>
         <el-button type="primary" @click="query(rows,1)" v-if="hasPerm('findRequestProcess')">查询</el-button>
@@ -45,27 +66,21 @@
         <el-table-column prop="serviceCode" label="服务编码" min-width="120"></el-table-column>
         <el-table-column prop="serviceName" label="服务名称" min-width="120"></el-table-column>
         <el-table-column prop="requestTime" label="请求时间" min-width="100">
-          <template slot-scope="scope">
-            {{ formatTime(scope.row.requestTime,'yyyy-MM-dd HH:mm:ss') }}
-          </template>
+          <template slot-scope="scope">{{ formatTime(scope.row.requestTime,'yyyy-MM-dd HH:mm:ss') }}</template>
         </el-table-column>
         <el-table-column prop="requestType" label="请求类型"></el-table-column>
         <el-table-column prop="responseTime" label="响应时间" min-width="100">
-          <template slot-scope="scope">
-            {{ formatTime(scope.row.responseTime,'yyyy-MM-dd HH:mm:ss') }}
-          </template>
-        </el-table-column>	
+          <template
+            slot-scope="scope"
+          >{{ formatTime(scope.row.responseTime,'yyyy-MM-dd HH:mm:ss') }}</template>
+        </el-table-column>
         <el-table-column prop="processState" label="处理状态">
-          <template slot-scope="scope">
-            {{ scope.row.processState | processState }}
-          </template>
-        </el-table-column>	
+          <template slot-scope="scope">{{ scope.row.processState | processState }}</template>
+        </el-table-column>
         <el-table-column prop="retryCount" label="重试次数"></el-table-column>
         <el-table-column prop="createTime" label="创建时间" min-width="100">
-          <template slot-scope="scope">
-            {{ formatTime(scope.row.createTime,'yyyy-MM-dd HH:mm:ss') }}
-          </template>
-        </el-table-column>	
+          <template slot-scope="scope">{{ formatTime(scope.row.createTime,'yyyy-MM-dd HH:mm:ss') }}</template>
+        </el-table-column>
         <el-table-column prop="paymentType" label="操作" fixed="right" width="160">
           <template slot-scope="scope">
             <el-button
@@ -73,7 +88,7 @@
               size="small"
               type="primary"
               v-if="hasPerm('findDetailById')"
-            >日志</el-button>
+            >详情</el-button>
             <el-button
               @click="retry(scope.row)"
               size="small"
@@ -87,19 +102,19 @@
         class="mt10"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-        :page-sizes="[10, 20, 30, 40]"
+        :page-sizes="[20, 50, 100]"
         :page-size="rows"
         :current-page.sync="page"
         layout="total,sizes, prev, pager, next, jumper"
         :total="total"
-      >
-      </el-pagination>
+        v-if="total > 20"
+      ></el-pagination>
     </div>
     <detail-modal ref="detailModal"></detail-modal>
   </div>
 </template>
 <script>
-import { mapState } from 'vuex'
+import { mapState } from "vuex";
 import { findRequestProcess, retryRequestProcess } from "@/api/requestProcess";
 import { formatTime, timeToUnix } from "@/utils/index";
 import detailModal from "./components/detailModal";
@@ -114,14 +129,16 @@ export default {
       form: {
         businessCode: "",
         serviceCode: "",
-        startTime: "",
-        endTime: ""
+        processState: "",
+        // startTime: "",
+        // endTime: ""
+        time: []
       },
       stripe: true,
       tableData: [],
       total: 0,
-      rows: 10,
-      page: 1,
+      rows: 20,
+      page: 1
     };
   },
   created() {
@@ -130,7 +147,8 @@ export default {
   },
   computed: {
     ...mapState({
-      serviceName: state => state.globalData.serviceName
+      serviceName: state => state.globalData.serviceName,
+      processState: state => state.globalData.processState
     })
   },
   methods: {
@@ -142,17 +160,23 @@ export default {
           rows,
           page
         },
-        this.form
+        {
+          businessCode: this.form.businessCode,
+          serviceCode: this.form.serviceCode,
+          processState: this.form.processState,
+          startTime: this.form.time[0],
+          endTime: this.form.time[1],
+        }
+        
       );
-      console.log(params);
-      if (timeToUnix(params.startTime) > timeToUnix(params.endTime)) {
-        this.$message({
-          message: "开始时间不能晚于截止时间",
-          type: "error"
-        });
-        return false;
-      }      
-      let res = await findRequestProcess(params)
+      // if (timeToUnix(params.startTime) > timeToUnix(params.endTime)) {
+      //   this.$message({
+      //     message: "开始时间不能晚于截止时间",
+      //     type: "error"
+      //   });
+      //   return false;
+      // }
+      let res = await findRequestProcess(params);
       if (res.resData) {
         this.total = res.resData.total;
         this.tableData = res.resData.list;
@@ -167,19 +191,20 @@ export default {
       this.query(this.rows, this.page);
     },
     detail(record) {
-      this.$refs.detailModal.edit(record);
+      //this.$refs.detailModal.edit(record);
+      this.$router.push({ path: `requestProcessMgmt/detail/${record.id}`});
     },
     async retry(record) {
       let params = {
         id: record.id
-      }
+      };
       let res = await retryRequestProcess(params);
-      if(res){
+      if (res) {
         this.query(this.rows, 1);
         this.$message({
-          type: 'success',
-          message: '重试成功！'
-        })
+          type: "success",
+          message: "重试成功！"
+        });
       }
     }
   }

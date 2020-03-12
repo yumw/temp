@@ -31,11 +31,12 @@
       class="mt10"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
-      :page-sizes="[10, 20, 30, 40]"
+      :page-sizes="[20, 50, 100]"
       :page-size="rows"
       :current-page.sync="page"
       layout="total,sizes, prev, pager, next, jumper"
       :total="total"
+      v-if="total > 20"
     ></el-pagination>
     <el-dialog :visible.sync="editDialogVisible" width="80%">
       <h3>权限设置</h3>
@@ -107,7 +108,7 @@ export default {
       checkKeys: [],
 
       total: 0,
-      rows: 10,
+      rows: 20,
       page: 1
     };
   },

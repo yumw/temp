@@ -29,10 +29,11 @@
         class="mt10"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-        :page-sizes="[10, 20, 30, 40]"
+        :page-sizes="[20, 50, 100]"
         :page-size="rows"
         layout="total,sizes, prev, pager, next, jumper"
         :total="channel.length"
+        v-if="channel.length > 20"
       ></el-pagination>
     </div>
     <channel-modal ref="channelModal" @confirm="confirm"></channel-modal>
@@ -52,7 +53,7 @@ export default {
       show: true,
       tableData: [],
       total: 0,
-      rows: 10,
+      rows: 20,
       page: 1
     };
   },

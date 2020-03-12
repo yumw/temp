@@ -3,7 +3,7 @@ import request from '@/utils/request'
 export function findAllPartnerSetting(data) {
   return request({
     url: '/bg/partnerSetting/findAllPartnerSetting',
-    method: 'get',
+    method: 'post',
     data
   })
 }

@@ -90,11 +90,12 @@
         class="mt10"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-        :page-sizes="[10, 20, 30, 40]"
+        :page-sizes="[20, 50, 100]"
         :page-size="rows"
         :current-page.sync="page"
         layout="total,sizes, prev, pager, next, jumper"
         :total="total"
+        v-if="total > 20"
       >
       </el-pagination>
     </div>
@@ -122,7 +123,7 @@ export default {
       stripe: true,
       tableData: [],
       total: 0,
-      rows: 10,
+      rows: 20,
       page: 1,
       selection: [],
       message: "",

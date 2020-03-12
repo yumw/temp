@@ -18,7 +18,7 @@
             v-if="scope.row.investRatio !== undefined"
           >{{ scope.row.investRatio }}%</template>
         </el-table-column>
-        <el-table-column label="是否报送征信" fixed="right" width="160">
+        <el-table-column label="是否资方报送征信" fixed="right" width="160">
           <template slot-scope="scope">
             <el-radio-group :value="scope.row.isReportCredit">
               <el-radio label="Y" @change="itemChange($event,scope.row,'Y')">是</el-radio>
@@ -31,10 +31,11 @@
         class="mt10"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-        :page-sizes="[10, 20, 30, 40]"
+        :page-sizes="[20, 50, 100]"
         :page-size="rows"
         layout="total,sizes, prev, pager, next, jumper"
         :total="partner.length"
+        v-if="partner.length > 20"
       ></el-pagination>
     </div>
   </div>
@@ -58,7 +59,7 @@ export default {
       stripe: true,
       tableData: [],
       total: 0,
-      rows: 10,
+      rows: 20,
       page: 1
     };
   },

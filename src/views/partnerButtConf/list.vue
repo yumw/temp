@@ -1,10 +1,29 @@
 <template>
   <div class="app-container">
+    <el-form :inline="true" :model="form">
+      <el-form-item label="资方编号">
+        <el-input v-model="form.partnerCode"></el-input>
+      </el-form-item>
+      <el-form-item label="资方名称">
+        <el-input v-model="form.partnerName"></el-input>
+      </el-form-item>
+      <el-form-item label="对接模式">
+        <!-- <el-input v-model="form.serviceCode"></el-input> -->
+        <el-select v-model="form.partnerType" filterable>
+          <el-option key label="全部" value></el-option>
+          <el-option key="1" label="标准" value="1"></el-option>
+          <el-option key="2" label="定制化" value="2"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="query(rows,1)">查询</el-button>
+      </el-form-item>
+    </el-form>
     <div class="table-container">
       <div class="table-toolbar">
         <el-button type="primary" @click="add" v-if="hasPerm('addPartnerSetting')">新增</el-button>
       </div>
-      <el-table ref="multipleTable" :data="tableData.slice((page-1)*rows,page*rows)" border :stripe="stripe" style="width: 100%">
+      <el-table ref="multipleTable" :data="tableData" border :stripe="stripe" style="width: 100%">
         <el-table-column prop="id" label="id" min-width="60"></el-table-column>
         <el-table-column prop="partnerCode" label="资方编号" width="100"></el-table-column>
         <el-table-column prop="requestUrl" label="请求地址" min-width="200"></el-table-column>
@@ -49,10 +68,11 @@
         class="mt10"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-        :page-sizes="[10, 20, 30, 40]"
+        :page-sizes="[20, 50, 100]"
         :page-size="rows"
         layout="total,sizes, prev, pager, next, jumper"
-        :total="tableData.length"
+        :total="total"
+        v-if="total > 20"
       ></el-pagination>
     </div>
     <partnerbutt-modal ref="partnerbuttModal" @confirm="confirm"></partnerbutt-modal>
@@ -72,11 +92,12 @@ export default {
   data() {
     return {
       form: {
+        partnerType: ''
       },
       stripe: true,
       tableData: [],
       total: 0,
-      rows: 10,
+      rows: 20,
       page: 1,
       partnerTypeMap: {
         '1': '标准',
@@ -95,26 +116,27 @@ export default {
   methods: {
     formatTime,
     async query(rows, page) {
-      // const params = Object.assign(
-      //   {
-      //     rows,
-      //     page
-      //   },
-      //   this.form
-      // );
-      let res = await findAllPartnerSetting();
+      this.page = page;
+      const params = Object.assign(
+        {
+          rows,
+          page
+        },
+        this.form
+      );
+      let res = await findAllPartnerSetting(params);
       if (res.resData) {
-        //this.total = res.resData.total;
+        this.total = res.resData.total;
         this.tableData = res.resData.list;
       }
     },
     handleSizeChange(val) {
       this.rows = val;
-      //this.query(this.rows, this.page);
+      this.query(this.rows, this.page);
     },
     handleCurrentChange(val) {
       this.page = val;
-      //this.query(this.rows, this.page);
+      this.query(this.rows, this.page);
     },
     add() {
       this.$refs.partnerbuttModal.edit();
