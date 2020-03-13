@@ -319,8 +319,8 @@ const routerMap = {
     name: 'requestProcessMgmt ',
     component: () => import('@/views/requestProcessMgmt/list')
   },{ 
-    path: 'requestProcessMgmt/detail/:id?',
-    name: 'requestProcessMgmtDetail ',
+    path: 'requestProcessMgmt/detail',
+    name: 'requestProcessMgmtDetail',
     component: () => import('@/views/requestProcessMgmt/detail'),
     hidden: true,
     meta: { title: '请求处理详情'}
@@ -341,11 +341,16 @@ const routerMap = {
     hidden: true,
     meta: { title: '请求接收详情'}
   }],
-  'exceptionMgmt':{ //异常管理
+  'exceptionMgmt':[{ //异常管理
     path: 'exceptionMgmt',
     name: 'exceptionMgmt ',
     component: () => import('@/views/exceptionMgmt/list')
-  },
+  },{
+    path: 'exceptionMgmt/detail',
+    name: 'exceptionMgmtDetail',
+    hidden: true,
+    component: () => import('@/views/exceptionMgmt/detail')
+  }],
   'withDrawQuery':{ //提现查询
     path: 'withDrawQuery',
     name: 'withDrawQuery ',

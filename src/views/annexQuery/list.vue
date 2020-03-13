@@ -10,15 +10,15 @@
     </el-form>
     <div class="table-container">
       <el-table ref="multipleTable" :data="tableData" border :stripe="stripe" style="width: 100%">
-        <el-table-column prop="id" label="id"></el-table-column>
+        <el-table-column label="序号" width="50" type="index"></el-table-column>
         <el-table-column prop="caseNo" label="案件号"></el-table-column>
-        <el-table-column prop="fileType" label="附件类型"></el-table-column>
+        <el-table-column prop="fileType" label="附件内容"></el-table-column>
         <el-table-column prop="fileName" label="附件名称">
           <template slot-scope="scope">
             {{ scope.row.fileName }}{{ scope.row.fileName ? '.' : ''}}{{ scope.row.fileExtension }}
           </template>
         </el-table-column>
-        <el-table-column prop="fileUuid" label="下载码"></el-table-column>
+        <!-- <el-table-column prop="fileUuid" label="下载码"></el-table-column> -->
         <el-table-column prop="paymentType" label="操作" fixed="right" width="160">
           <template slot-scope="scope">
             <el-button

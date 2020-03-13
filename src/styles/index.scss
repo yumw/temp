@@ -75,6 +75,10 @@ a:hover {
   margin-top: 10px;
 }
 
+.mt20 {
+  margin-top: 20px;
+}
+
 .mask {
   position: absolute;
   background: white;
@@ -92,4 +96,8 @@ a:hover {
   top: 400px;
   z-index: 1000;
   font-weight: bold;
+}
+
+.wordBreak{
+  word-break: break-all;
 }

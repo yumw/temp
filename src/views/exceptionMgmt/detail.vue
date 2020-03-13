@@ -6,9 +6,10 @@
       <el-form-item label="服务中文名：">{{ formAddEdit.serviceName }}</el-form-item>
       <el-form-item label="请求方：">{{ formAddEdit.requestSource }}</el-form-item>
       <el-form-item label="接收方：">{{ formAddEdit.requestTarget }}</el-form-item>
-      <el-form-item label="创建时间：">{{ formatTime(formAddEdit.createTime) }}</el-form-item>
-      <el-form-item label="请求类型：">{{ formAddEdit.requestType }}</el-form-item>
-      <el-form-item label="请求内容：" class="wordBreak">{{ formAddEdit.requestContent }}</el-form-item>
+      <el-form-item label="创建时间：">{{ formatTime(formAddEdit.exceptionTime) }}</el-form-item>
+      <el-form-item label="处理状态：">{{ formAddEdit.exceptionState | exceptionState }}</el-form-item>
+      <el-form-item label="请求内容：" class="wordBreak">{{ formAddEdit.requestData }}</el-form-item>
+      <el-form-item label="响应内容：" class="wordBreak">{{ formAddEdit.responseData }}</el-form-item>
       <el-form-item>
           <el-button @click="$router.go(-1)">返回</el-button>
       </el-form-item>
@@ -17,32 +18,26 @@
 </template>
 <script>
 import { mapState } from "vuex";
-import { getRequestReceiveDetail } from "@/api/requestReceive";
+import { findExceptionById } from "@/api/exception";
 import { formatTime, timeToUnix } from "@/utils/index";
 export default {
-  name:'packageCodesModel',
-  props: {
-    list: {
-      default: '',
-      type: String
-    }
-  },
+  name:'exceptionMgmtDetail',
   data() {
     return {
       visible: false,
-      formAddEdit: {},
+      formAddEdit: {
+
+      },
       tableData: [],
       total: 0,
       rows: 10,
       page: 1,
-      title: '详情',
-      id:''
+      title: '详情'
     };
   },
-  mounted(e) {
-    this.id = this.$route.params.id;
-    this.visible = true;
-    this.tableData = [];
+  mounted() {
+    let { record } = this.$route.params;
+    this.formAddEdit = record
     this.query(this.rows,1);
   },
   methods: {
@@ -65,16 +60,18 @@ export default {
       //   this.form
       // );
       let params = {
-        id: this.id
+        id: this.formAddEdit.id
       }
-      let res = await getRequestReceiveDetail(params)
+      let res = await findExceptionById(params)
         if (res.resData) {
-          this.total = res.resData.total
-          this.formAddEdit = res.resData  
+          //this.total = res.resData.total
+          //this.formAddEdit = res.resData 
+          this.formAddEdit.responseData = res.resData.responseData;
+          this.formAddEdit.requestData = res.resData.requestData; 
         }
     },
     edit(record) {
-      
+
     }
   }
 };

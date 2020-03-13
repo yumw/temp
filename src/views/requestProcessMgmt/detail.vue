@@ -1,27 +1,20 @@
 <template>
   <div>
-    <el-form label-width="100px" class="add-edit-wrap">
-      <el-form-item label="请求内容：">{{ requestData }}</el-form-item>
+    <el-form label-width="150px" class="mt20">
+      <el-form-item label="业务流水号：">{{ formAddEdit.businessCode }}</el-form-item>
+      <el-form-item label="服务名：">{{ formAddEdit.serviceCode }}</el-form-item>
+      <el-form-item label="服务中文名：">{{ formAddEdit.serviceName }}</el-form-item>
+      <el-form-item label="请求方：">{{ formAddEdit.requestSource }}</el-form-item>
+      <el-form-item label="接收方：">{{ formAddEdit.requestTarget }}</el-form-item>
+      <el-form-item label="创建时间：">{{ formatTime(formAddEdit.createTime) }}</el-form-item>
+      <el-form-item label="处理状态：">{{ formAddEdit.processState | processState }}</el-form-item>
+      <el-form-item label="请求内容：" class="wordBreak">{{ formAddEdit.requestData }}</el-form-item>
       <el-form-item label="响应内容：">
-        <el-table ref="multipleTable" row-key="id" :data="tableData" border >
-          <el-table-column prop="responseData" >
-            <template slot-scope="scope">
-              {{ scope.row }}
-            </template>
-          </el-table-column>
-        </el-table>
-        <!-- <el-pagination
-            class="mt10"
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-            :page-sizes="[10, 20, 30, 40]"
-            :page-size="rows"
-            :current-page.sync="page"
-            layout="total,sizes, prev, pager, next, jumper"
-            :total="tableData.length"
-        ></el-pagination> -->
+        <div v-for="item in tableData" :key="item" class="wordBreak" style="border-bottom: 1px solid #eee;">{{ item }}</div>
       </el-form-item>
-      
+      <el-form-item>
+          <el-button @click="$router.go(-1)">返回</el-button>
+      </el-form-item>
     </el-form>
         
   </div>
@@ -32,29 +25,24 @@ import { findDetailById } from "@/api/requestProcess";
 import { formatTime, timeToUnix } from "@/utils/index";
 
 export default {
-  name:'packageCodesModel',
-  props: {
-    list: {
-      default: '',
-      type: String
-    }
-  },
+  name:'requestProcessMgmtDetail',
   data() {
     return {
-      visible: false,
       tableData: [],
+      formAddEdit:{
+
+      },
       total: 0,
       rows: 10,
       page: 1,
       title: '详情',
       id:'',
-      requestData:''
     };
   },
   mounted() {
-    this.id = this.$route.params.id;
-    this.visible = true;
-    this.tableData = [];
+    let { record } = this.$route.params
+    console.log(record)
+    this.formAddEdit = record;
     this.query(this.rows,1);
   },
   methods: {
@@ -77,13 +65,13 @@ export default {
       //   this.form
       // );
       let params = {
-        id: this.id
+        id: this.formAddEdit.id
       }
       let res = await findDetailById(params)
         if (res.resData) {
           //this.total = res.resData.total
           this.tableData = res.resData.responseData;
-          this.requestData = res.resData.requestData;
+          this.formAddEdit.requestData = res.resData.requestData;
         }
     },
     edit(record) {

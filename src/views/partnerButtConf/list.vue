@@ -24,20 +24,21 @@
         <el-button type="primary" @click="add" v-if="hasPerm('addPartnerSetting')">新增</el-button>
       </div>
       <el-table ref="multipleTable" :data="tableData" border :stripe="stripe" style="width: 100%">
-        <el-table-column prop="id" label="id" min-width="60"></el-table-column>
+        <el-table-column label="序号" width="50" type="index"></el-table-column>
         <el-table-column prop="partnerCode" label="资方编号" width="100"></el-table-column>
+        <el-table-column prop="partnerName" label="资方名称" width="100"></el-table-column>
         <el-table-column prop="requestUrl" label="请求地址" min-width="200"></el-table-column>
         <el-table-column prop="encryptParam" label="资方秘钥" type="expand" width="100">
           <template slot-scope="scope">
             <div style="word-wrap: break-word;">{{ scope.row.encryptParam }}</div>
           </template>
         </el-table-column>
-        <el-table-column prop="partnerType" label="资方类型">
+        <el-table-column prop="partnerType" label="对接模式">
           <template
             slot-scope="scope"
           >{{ partnerTypeMap[scope.row.partnerType] }}</template>
         </el-table-column>
-        <el-table-column prop="createTime" label="创建时间">
+        <!-- <el-table-column prop="createTime" label="创建时间">
           <template
             slot-scope="scope"
           >{{ formatTime(scope.row.createTime,'yyyy-MM-dd HH:mm:ss') }}</template>
@@ -46,7 +47,7 @@
           <template
             slot-scope="scope"
           >{{ formatTime(scope.row.updateTime,'yyyy-MM-dd HH:mm:ss') }}</template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column prop="paymentType" label="操作" fixed="right" width="160">
           <template slot-scope="scope">
             <el-button

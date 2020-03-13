@@ -5,7 +5,6 @@
         <el-input v-model="form.businessCode"></el-input>
       </el-form-item>
       <el-form-item label="服务名">
-        <!-- <el-input v-model="form.serviceCode"></el-input> -->
         <el-select v-model="form.serviceCode" filterable>
           <el-option key label="全部" value></el-option>
           <el-option
@@ -16,19 +15,25 @@
           ></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="开始时间">
+      <!-- <el-form-item label="处理状态">
+        <el-select v-model="form.exceptionState" filterable>
+          <el-option key label="全部" value></el-option>
+          <el-option
+            v-for="item in exceptionState"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          ></el-option>
+        </el-select>
+      </el-form-item> -->
+      <el-form-item label="创建时间">
         <el-date-picker
-          type="datetime"
-          placeholder="开始时间"
-          v-model="form.startTime"
-          value-format="yyyy-MM-dd HH:mm:ss"
-        ></el-date-picker>`
-      </el-form-item>
-      <el-form-item label="结束时间">
-        <el-date-picker
-          type="datetime"
-          placeholder="结束时间"
-          v-model="form.endTime"
+          type="datetimerange"
+          v-model="form.time"
+          :editable="false"
+          start-placeholder="开始时间"
+          end-placeholder="结束时间"
+          range-separator="至"
           value-format="yyyy-MM-dd HH:mm:ss"
         ></el-date-picker>
       </el-form-item>
@@ -39,24 +44,17 @@
     </el-form>
     <div class="table-container">
       <el-table ref="multipleTable" :data="tableData" border :stripe="stripe" style="width: 100%">
-        <el-table-column prop="id" label="id" min-width="60"></el-table-column>
-        <el-table-column prop="businessCode" label="业务流水号" min-width="160"></el-table-column>
-        <el-table-column prop="partnerCode" label="资方编号" min-width="80"></el-table-column>
-        <el-table-column prop="serviceCode" label="服务编码" min-width="120"></el-table-column>
-        <el-table-column prop="serviceName" label="服务名称" min-width="120"></el-table-column>
-        <el-table-column prop="exceptionTime" label="异常时间" min-width="100">
-          <template slot-scope="scope">
-            {{ formatTime(scope.row.exceptionTime,'yyyy-MM-dd HH:mm:ss') }}
-          </template>
+        <el-table-column label="序号" width="50" type="index"></el-table-column>
+        <el-table-column prop="businessCode" label="业务流水号" min-width="150"></el-table-column>
+        <el-table-column prop="serviceName" label="服务名" min-width="150"></el-table-column>
+        <el-table-column prop="requestSource" label="请求方" min-width="120"></el-table-column>
+        <el-table-column prop="requestTarget" label="接收方" min-width="120"></el-table-column>
+        <el-table-column prop="exceptionState" label="处理状态" min-width="120">
+          <template slot-scope="scope">{{ scope.row.exceptionState | exceptionState }}</template>
         </el-table-column>
-        <el-table-column prop="requestType" label="请求类型"></el-table-column>
-        <el-table-column prop="exceptionState" label="异常状态">
-          <template slot-scope="scope">
-            {{ scope.row.exceptionState | exceptionState }}
-          </template>
-        </el-table-column>	
-        <el-table-column prop="retryCount" label="重试次数"></el-table-column>
-        </el-table-column>	
+        <el-table-column prop="exceptionTime" label="创建时间" min-width="160">
+          <template slot-scope="scope">{{ formatTime(scope.row.exceptionTime) }}</template>
+        </el-table-column>
         <el-table-column prop="paymentType" label="操作" fixed="right" width="160">
           <template slot-scope="scope">
             <el-button
@@ -87,27 +85,29 @@
       >
       </el-pagination>
     </div>
-    <detail-modal ref="detailModal"></detail-modal>
+    <!-- <detail-modal ref="detailModal"></detail-modal> -->
   </div>
 </template>
 <script>
 import { mapState } from 'vuex'
 import { findException, retryException } from "@/api/exception";
 import { formatTime, timeToUnix } from "@/utils/index";
-import detailModal from "./components/detailModal";
+//import detailModal from "./components/detailModal";
 
 export default {
   name: "requestProcess",
-  components: {
-    detailModal
-  },
+  // components: {
+  //   detailModal
+  // },
   data() {
     return {
       form: {
         businessCode: "",
         serviceCode: "",
-        startTime: "",
-        endTime: ""
+        exceptionState: "",
+        // startTime: "",
+        // endTime: ""
+        time: []
       },
       stripe: true,
       tableData: [],
@@ -122,7 +122,8 @@ export default {
   },
   computed: {
     ...mapState({
-      serviceName: state => state.globalData.serviceName
+      serviceName: state => state.globalData.serviceName,
+      exceptionState: state => state.globalData.exceptionState
     })
   },
   methods: {
@@ -134,16 +135,21 @@ export default {
           rows,
           page
         },
-        this.form
+        {
+          businessCode: this.form.businessCode,
+          serviceCode: this.form.serviceCode,
+          exceptionState: this.form.exceptionState,
+          startTime: this.form.time[0],
+          endTime: this.form.time[1],
+        }
       );
-      console.log(params);
-      if (timeToUnix(params.startTime) > timeToUnix(params.endTime)) {
-        this.$message({
-          message: "开始时间不能晚于截止时间",
-          type: "error"
-        });
-        return false;
-      }      
+      // if (timeToUnix(params.startTime) > timeToUnix(params.endTime)) {
+      //   this.$message({
+      //     message: "开始时间不能晚于截止时间",
+      //     type: "error"
+      //   });
+      //   return false;
+      // }      
       let res = await findException(params)
       if (res.resData) {
         this.total = res.resData.total;
@@ -159,7 +165,8 @@ export default {
       this.query(this.rows, this.page);
     },
     detail(record) {
-      this.$refs.detailModal.edit(record);
+      //this.$refs.detailModal.edit(record);
+      this.$router.push({ name: "exceptionMgmtDetail", params: { record } });
     },
     async retry(record) {
       let params = {
